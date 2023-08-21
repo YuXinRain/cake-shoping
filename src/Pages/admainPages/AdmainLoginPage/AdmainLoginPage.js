@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getAdmainLogin } from '../../../Redux/reducers/admainReducer';
+import { getAdmainLogin, setError } from '../../../Redux/reducers/admainReducer';
 import { Button, Center } from '../../../styledCss';
 
 const Root = styled.div`
@@ -87,10 +87,12 @@ export default function AdmainLoginPage() {
   };
 
   useEffect(() => {
+    dispatch(setError(''))
     if(admain){
       navigate('/admain/commodity')
     }
   }, [admain, navigate])
+
   const handlePasswordChange = (e) => {setPassword(e.target.value)}
   const handleUserNameChange = (e) => {setUserName(e.target.value)}
 

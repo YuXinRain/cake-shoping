@@ -24,7 +24,6 @@ const SoppingAll = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
   z-index: 999;
-
 `
 const SoppingCards = styled.div`
   overflow-y:scroll;

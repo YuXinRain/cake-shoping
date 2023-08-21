@@ -7,6 +7,11 @@ import { useEffect, useState } from 'react';
 import { setClickSopping } from '../../Redux/reducers/productReducer';
 import { setAdmain, setIsLodding } from '../../Redux/reducers/admainReducer';
 import { getMe } from '../../WebAPI';
+import shoppingCart from '../../image/shopping-cart.png';
+import loginPhoto from '../../image/login.png';
+import logoutPhoto from '../../image/logout.png';
+import home from '../../image/home.png';
+import { Center } from '../../styledCss';
 
 const Root = styled.div``
 
@@ -49,16 +54,15 @@ const NavSopping  = styled.div`
   position: relative;
 `
 const Nav = styled(Link).attrs(props => ({
-  admainlogin: props.admainlogin // 將 admainLogin 映射到元素上
+  admainlogin: props.admainlogin
 }))`
   font-size: 16px;
   text-decoration: none;
-  color: ${({ admainlogin }) => admainlogin ? 'white' : '#474747'};
+  color: ${({ admainlogin }) => admainlogin ? 'white' : '#a28876'};
   padding: ${({ admainlogin }) => admainlogin ? '0px 30px' : '0px 20px;'};
+  ${Center}
 `
-const NavbarRight = styled.div`
-
-`
+const NavbarRight = styled.div``
 const State = styled.div`
   width: 20px;
   height: 20px;
@@ -74,7 +78,11 @@ const State = styled.div`
 `
 const HeaderAdmain = styled.div``
 const HeaderUser = styled.div``
-
+const ImgPhoto = styled.img`
+  width: 25px;
+  height: 25px;
+  margin-right: 5px;
+`
 export default function Header() {
   const user = useSelector((store) => store.users.user)
   const location = useLocation();
@@ -88,14 +96,15 @@ export default function Header() {
     setAuthToken(" ")
     dispatch(setUser(null))
     dispatch(setAdmain(false))
-    if(location.pathname !== "/"){
-      navigate("/")        
+    if(location.pathname !== "/commodity"){
+      navigate("/commodity")        
     }
 
   }
   const handleModalOpen = () => {
     dispatch(setClickSopping(true))
   }
+
   useEffect(()=> {
     if(soppingCard.length > 0 ){
       setStatus(true)
@@ -113,7 +122,6 @@ export default function Header() {
         }
       })
       .catch(err => {
-        console.log(err)
         dispatch(setIsLodding(true))
         dispatch(setAdmain(true))
         dispatch(setIsLodding(false))
@@ -121,6 +129,11 @@ export default function Header() {
     }
   }, [dispatch])
 
+  useEffect(() => {
+    if(location.pathname === "/sopping"){
+      dispatch(setClickSopping(false))
+    }
+  })
 
   return (
     <Root>
@@ -140,24 +153,31 @@ export default function Header() {
         <HeaderUser>
           <Headers>
             <NavbarLeft>
-              <Title to="/">
-                米の輕手作
+              <Title to="/commodity">
+                CakeShop
               </Title>
-              <List>
-                <Nav to="/">首頁</Nav>
-                <Nav to="/commodity">商品</Nav>
-              </List>
             </NavbarLeft>
             <NavbarRight>
               <List>
+                <Nav to="/commodity">
+                  <ImgPhoto src={home}/>
+                  首頁
+                </Nav>
                 <NavSopping>
                   {status && <State>{soppingCard.length}</State>}
-                  <Nav onClick={handleModalOpen}>
+                  <Nav onClick={handleModalOpen} >
+                    <ImgPhoto src={shoppingCart}/>
                     購物車
                   </Nav>
                 </NavSopping>
-                { !user && <Nav to='/login' $active={location.pathname === '/login'}>登入</Nav>}
-                { user && <Nav onClick={handleLoginOut} >登出</Nav>}
+                { !user && <Nav to='/login' $active={location.pathname === '/login'}>
+                  <ImgPhoto src={loginPhoto}/>
+                  登入
+                  </Nav>}
+                { user && <Nav onClick={handleLoginOut} >
+                  <ImgPhoto src={logoutPhoto}/>
+                  登出
+                </Nav>}
               </List>
             </NavbarRight>
           </Headers>

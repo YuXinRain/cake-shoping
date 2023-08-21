@@ -5,10 +5,11 @@ import styled from 'styled-components';
 import { LeaveHover, setProduct, EnterHover, getCount, getSoppingCard, getCensorCard, getCard, setCards } from '../../../Redux/reducers/productReducer';
 import { Button, Center } from '../../../styledCss';
 import lodding from '../../../image/cat.png';
+import cakePhoto from '../../../image/cakePhoto.jpeg';
+import sweets from '../../../image/sweets.png';
 
 const Root = styled.div`
   text-align: center;
-  margin-top: 70px;
   margin-bottom: 50px;
 `
 const PostCenter = styled.div`
@@ -22,7 +23,6 @@ const Product = styled.div`
   margin: 70px 50px 0;;
   ${Center}
   position: relative;
-
 `
 
 const ProductName = styled.div`
@@ -180,8 +180,39 @@ const LoddingImg = styled.img`
   margin-right: 5px;
 `
 const ProductWrapper = styled.div``
+const CoverPhoto = styled.img`
+  width: 1100px;
+  height: 300px;
+  margin-top: 100px;
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
 
-
+`
+const CoverPhotoAll = styled.div`
+  ${Center};
+`
+const ProductAll = styled.div`
+`
+const AllProducts = styled.div`
+  text-align: left;
+  font-size: 20px;
+  border-bottom: 1.5px solid #a28876;
+  margin: 30px 160px 0px;
+  padding-bottom: 10px;
+  letter-spacing: 2px;
+  color: #a28876;
+  display: flex;
+  align-items: center;
+`
+const ImgPhoto = styled.img`
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+`
+const Text = styled.div``
 function SoppingCard({ handleCloseModal, cards, cardUrl, count, handleIncrement, handleDecrement, handleInputChange, handleJoinClick }){
   const id = cards[0].id
   return(
@@ -241,6 +272,7 @@ export default function CommodityPage() {
 
   useEffect(()=> {
     dispatch(setCards(''))
+    console.log('setCard')
   },[dispatch])
 
   const handleIncrement = () => {
@@ -301,7 +333,15 @@ export default function CommodityPage() {
           <LoddingImg src={lodding} />
           Lodding
         </Lodding>)}
-      {posts.map((post) => 
+        <CoverPhotoAll>
+          <CoverPhoto src={cakePhoto}/>
+        </CoverPhotoAll>
+        <AllProducts>
+          <ImgPhoto src={sweets} />
+          <Text>全部商品</Text>
+        </AllProducts>
+        <ProductAll>
+          {posts.map((post) => 
       <PostCenter key={post.id} >
         <ProductWrapper>
           <Product onMouseEnter={()=>handleMouseEnter(post.id)}
@@ -316,6 +356,8 @@ export default function CommodityPage() {
         <ProductPrice>${post.price}</ProductPrice>
       </PostCenter>
       )}
+        </ProductAll>
+      
       { card && (<SoppingCard 
         handleCloseModal={handleCloseModal}
         cards={card}

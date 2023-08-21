@@ -5,7 +5,6 @@ import { Center, Between } from '../../../styledCss';
 import { getOrderAll } from '../../../WebAPI';
 import left from '../../../image/left.png';
 import right from '../../../image/right.png';
-import edit from '../../../image/edit.png';
 import Search from '../../../image/search.png'
 
 const Root = styled.div`
@@ -78,10 +77,7 @@ const BtnRight = styled.img`
 `
 const OrderAll = styled.div`
 `
-const EditBttton = styled.img`
-  width: 30px;
-  cursor: pointer;
-`
+
 const NavName = styled.div`
   letter-spacing:2px;
   width: 250px;
@@ -262,7 +258,6 @@ export default function AdmainOrderPage() {
           <Nav>會員ID</Nav>
           <Nav>總價</Nav>
           <Nav>狀態</Nav>
-          <Nav>編輯</Nav>
         </Navber>
         <List>
           {currents && currents.map(current => 
@@ -272,9 +267,6 @@ export default function AdmainOrderPage() {
               <Nav>{current.userId}</Nav>
               <Nav>{current.totalPrice}</Nav>
               <Nav>{current.status}</Nav>
-              <Nav>
-                <EditBttton src={edit} />
-              </Nav>
             </Navber>
           </OrderAll> )}
         </List>

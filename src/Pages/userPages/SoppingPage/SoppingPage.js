@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { setDelete } from '../../../Redux/reducers/productReducer';
+import { setDelete, setLodding } from '../../../Redux/reducers/productReducer';
 import { Between, Center } from '../../../styledCss';
 import blackDelete from '../../../image/blackDelete.png'
 import { useEffect, useState } from 'react';
 import { postNewOrder } from '../../../WebAPI';
+import lodding from '../../../image/cat.png';
+import { useNavigate } from 'react-router-dom';
 
 const size = css`
   width: 100px;
@@ -23,7 +25,7 @@ const SoppingPageAll = styled.div`
 
 `
 const Sopping = styled.div`
-  box-shadow: 0px 1px 7px rgba(243, 171, 170, 0.5);
+  box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
   width:80%;
 `
 const Content = styled.div`
@@ -33,8 +35,8 @@ const Title = styled.div`
   padding: 15px;
   padding-left: 30px;
   ${Between}
-  background: #fdf2f2;
-  border-bottom: 1px solid #f3abaa;
+  background: #faf1eb;
+  border-bottom: 1px solid #a28876;
 `
 const TitleContext = styled.div`
   font-size: 24px;
@@ -45,7 +47,7 @@ const List = styled.div`
   display: flex;
   padding: 15px;
   justify-content: space-between;
-  border-bottom: 1px solid #f3abaa;
+  border-bottom: 1px solid #a28876;
 `
 const Nav = styled.div`
   width: 100px;
@@ -56,7 +58,7 @@ const Tent = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  border-bottom: 1px solid #f3abaa;
+  border-bottom: 1px solid #a28876;
 
 `
 const Img = styled.img`
@@ -96,7 +98,7 @@ const OrderAll = styled.div`
 `
 const Order = styled.div`
   width:80%;
-  box-shadow: 0px 1px 7px rgba(243, 171, 170, 0.5);
+  box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
 `
 const TextAll = styled.div`
   padding: 20px;
@@ -106,7 +108,7 @@ const Text = styled.div`
   input {
     height: 40px;
     width: 100%;
-    border: 1px  solid #f3abaa;
+    border: 1px  solid #a28876;
   }
 `
 
@@ -114,7 +116,7 @@ const Total = styled.div`
   text-align: center;
   margin-left: 50px;
   width: 30%;
-  box-shadow: 0px 1px 7px rgba(243, 171, 170, 0.5);
+  box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
 `
 const SoppingBottom = styled.div`
   width:100%;
@@ -147,7 +149,7 @@ const PriceButton = styled.button`
   cursor: pointer;
   font-size: 20px;
   border-radius: 10px;
-  background: #ffb8cf;
+  background: #e8ccb0;
   padding: 5px;
   width: 80%;
 `
@@ -155,6 +157,60 @@ const Li = styled.div``
 const Err = styled.div`
   color: red;
 `
+const OrderOk = styled.div`
+  margin-top: 64px;
+  ${Center}
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+`
+const OrderContent = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 100px;
+  text-align: center;
+  background: #FAFAFA;
+  box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
+  border-radius: 10px;
+  padding: 10px;
+`
+const OrderStatus = styled.div`
+  margin-top: 10px;
+  padding: 10px;
+`
+const OrderDelete = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+`
+const Lodding = styled.div`
+  font-size: 42px;
+  background: #faf1eb;
+  ${Center};
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #a28876;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  margin-top: 100px;
+`
+const LoddingImg = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 25px;
+  margin-right: 5px;
+`
+const OrderContext = styled.div``
 export default function SoppingPage() {
   const soppingCard = useSelector((store) => store.products.soppingCard)
   const dispatch = useDispatch()
@@ -163,7 +219,6 @@ export default function SoppingPage() {
   const user = useSelector((store) => store.users.user)
   const [ order, setOrder ] = useState('')
   const [ err, setError ] = useState('')
-  console.log(err)
   const [productInfo, setProductInfo] = useState({
     userId: user && user.length > 0 ? user[0].id.toString() : '',
     userName: '',
@@ -173,7 +228,8 @@ export default function SoppingPage() {
     totalPrice: 0,
     productList: [],
   });
-  
+  const isLodding = useSelector((store) => store.products.isLodding)
+  const navigate = useNavigate()
 
   const handleDeleteClick = id => {
     dispatch(setDelete(id))
@@ -182,7 +238,6 @@ export default function SoppingPage() {
       ...productInfo,
       productList: DataDele
     })
-    console.log('productInfo',productInfo.productList)
     if(productInfo.productList.length === 1){
       setProductInfo({
         ...productInfo,
@@ -190,6 +245,11 @@ export default function SoppingPage() {
       })
     }
   }
+  useEffect(() => {
+    if(order === ''){
+      dispatch(setLodding(false))
+    }
+  },[order,dispatch])
   useEffect(() => {
     const foundItem = soppingCard.map((post) => {
       return {
@@ -228,25 +288,50 @@ export default function SoppingPage() {
       [name]: value,
     }));
   };
+
   const handlePriceClick = () => {
+    dispatch(setLodding(true))
     if(productInfo){
       postNewOrder(productInfo).then(res => {
         if(res.ok === 0){
           if(res.message === 'token 驗證失敗'){
             setError('請先登入會員')
+            dispatch(setLodding(false))
           }
         }
         if(res.ok === 1){
           setOrder(res)
+          dispatch(setLodding(false))
         }
-      })}}
-  
+      })}
+    if(order === ''){
+      dispatch(setLodding(false))
+    }
+  }
+
+  const handleOrderCloseClick = () => {
+    setOrder('')
+    navigate('/commodity')
+  }
   return (
     <Root>
+      {isLodding && (
+        <Lodding>
+          <LoddingImg src={lodding} />
+          Lodding
+        </Lodding>)}
       <SoppingPageAll>
+      { order && (
+      <OrderOk>
+        <OrderContent>
+          <OrderStatus>{order.ok === 1 ? "訂購成功" : "訂購失敗"}</OrderStatus>
+          <OrderContext>訂單編號：{order.orderId}</OrderContext>
+          <OrderDelete onClick={handleOrderCloseClick}>X</OrderDelete>
+        </OrderContent>
+      </OrderOk>)}
         <Sopping>
           <Title>
-            購物車
+          <TitleContext>購物車</TitleContext>
           </Title>
           <List>
             <Nav>商品資訊</Nav>
@@ -293,7 +378,7 @@ export default function SoppingPage() {
           </Order>
           <Total>
             <Title>
-              結算
+              <TitleContext>結算</TitleContext>
             </Title>
             <TextName>
               <StyleTotal>

@@ -167,11 +167,16 @@ export default function ProductPage() {
     window.scrollTo(0, 0);
   }
   useEffect(()=> {
-    dispatch(setLodding(true))
     dispatch(getCard(id))
-    dispatch(setLodding(false))
   },[dispatch, id]) 
 
+  useEffect(() => {
+    if(card === undefined){
+      dispatch(setLodding(true))
+    }else{
+      dispatch(setLodding(false))
+    }
+  },[dispatch, card])
   return (
     <Root>
       {isLodding && (
