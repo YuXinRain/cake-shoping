@@ -167,23 +167,30 @@ export const postNewOrder = (data) => {
   .then(console.log('data', data))
 }
 
-export const postPhoto = (file, productId) => {
+export const postPhoto = (fromData) => {
   const token = getAuthToken()
   return fetch(`${BASE_URL}/photo`, {
     method: 'POST',
     headers: {
-      'content-type': 'application/json',
       'authorization': `Bearer ${token}`
     },
-    body: JSON.stringify({
-      "avatar": file,
-      "productId": productId
-    })
+    body: fromData
   })
   .then(res => res.json())
   .then(console.log('postPhoto'))
 }
 
+export const deletePhoto = (id) => {
+  const token = getAuthToken()
+  return fetch(`${BASE_URL}/photo/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'authorization': `Bearer ${token}`
+    },
+  })
+  .then(res => res.json())
+  .then(console.log('deletePhoto'))
+}
 export const PatchProduct = (data) => {
   const token = getAuthToken()
   return fetch(`${BASE_URL}/product`, {

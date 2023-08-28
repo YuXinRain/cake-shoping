@@ -6,11 +6,13 @@ import { getOrderAll } from '../../../WebAPI';
 import left from '../../../image/left.png';
 import right from '../../../image/right.png';
 import Search from '../../../image/search.png'
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Root = styled.div`
   margin-top: 150px;
+  ${Center}
   margin-bottom: 50px;
-  display: block;
 `
 const PageTop = styled.div`
   width: 100%;
@@ -18,7 +20,7 @@ const PageTop = styled.div`
   ${Center}
 `
 const Title = styled.div`
-  padding: 20px;
+  padding: 20px 40px;
   font-size: 20px;
   background-color: #775862;
   color: white;
@@ -42,7 +44,7 @@ const Nav = styled.div`
 const List = styled.div``
 const ContentAll = styled.div`
   box-shadow: 0px 1px 7px rgba(119, 88, 98, 0.5);
-  width:80%;
+  width:100%;
 `
 const LimitPage = styled.div`
   width: 100px;
@@ -107,7 +109,19 @@ const SearchInput = styled.div`
     height: 20px;
     padding: 5px;
   }
-  
+`
+const LoginNone = styled(Link)`
+  font-size: 20px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  color: #775862;
+  text-decoration: none;
+  box-shadow: 0px 1px 7px rgba(119, 88, 98, 0.5);
+  padding: 10px;
+  border-radius: 10px;
+`
+const PageContent = styled.div`
+  width: 80%;
 `
 export default function AdmainOrderPage() {
   const [ pages, setPages ] = useState('')
@@ -118,6 +132,8 @@ export default function AdmainOrderPage() {
   const totalSearchs = Math.ceil(resOk.length / 10);
   const pageAll = Array.from({ length: totalPages }, (_, index) => ({ num: index + 1, wire: 1 }));
   const resOkAll = Array.from({ length: totalSearchs }, (_, index) => ({ num: index + 1, wire: 1 }));
+  const admainLogin = useSelector((store) => store.admains.admainLogin)
+
   const paging = (sum, page) => {
     const startIndex = (page - 1) * sum;
     const endIndex = startIndex + sum;
@@ -153,7 +169,7 @@ export default function AdmainOrderPage() {
       setPages(updatedPages)
       paging(10, id)
     }
-    
+    window.scrollTo(0, 0);
   }
 
   const handleSearchChange = (e) => {
@@ -179,7 +195,9 @@ export default function AdmainOrderPage() {
       })
       setPages(updatedData)
       paging(10, clickLeft[0].num - 1)
-    }}
+    }
+    window.scrollTo(0, 0);
+  }
 
   const handleBtnRightClick = () => {
     const clickLeft = pages.filter(btn => btn.wire === 0)
@@ -211,6 +229,8 @@ export default function AdmainOrderPage() {
       setPages(updatedData)
       paging(10, clickLeft[0].num + 1)
     }}
+    window.scrollTo(0, 0);
+
     }
 
   useEffect(() => {
@@ -242,50 +262,59 @@ export default function AdmainOrderPage() {
   },[orderAll.length, resOk])
  return(
   <Root>
-    <PageTop>
-      <ContentAll>
-        <Title>
-          <ContentTitle>訂單管理</ContentTitle>
-          <SearchEngine>
-            <SearchImg src={Search}/>
-            <SearchInput>
-              <input type="text" placeholder="會員ID" onChange={handleSearchChange}/>
-            </SearchInput>
-          </SearchEngine>
-        </Title>
-        <Navber>
-          <NavName>訂單編號</NavName>
-          <Nav>會員ID</Nav>
-          <Nav>總價</Nav>
-          <Nav>狀態</Nav>
-        </Navber>
-        <List>
-          {currents && currents.map(current => 
-          <OrderAll key={current.id}>
+    {admainLogin ? (
+      <PageContent>
+        <PageTop>
+          <ContentAll>
+            <Title>
+              <ContentTitle>訂單管理</ContentTitle>
+              <SearchEngine>
+                <SearchImg src={Search}/>
+                <SearchInput>
+                  <input type="text" placeholder="會員ID" onChange={handleSearchChange}/>
+                </SearchInput>
+              </SearchEngine>
+            </Title>
             <Navber>
-              <NavName>{current.orderid}</NavName>
-              <Nav>{current.userId}</Nav>
-              <Nav>{current.totalPrice}</Nav>
-              <Nav>{current.status}</Nav>
+              <NavName>訂單編號</NavName>
+              <Nav>會員ID</Nav>
+              <Nav>總價</Nav>
+              <Nav>狀態</Nav>
             </Navber>
-          </OrderAll> )}
-        </List>
-      </ContentAll>
-    </PageTop>
-    <PageBottom>
-      <LimitPage>
-        <BtnLeft src={left} onClick={handleBtnLeftClick}/>
-        {pages && pages.map(page => 
-          <BtnSum 
-            key={page.num}
-            onClick={() => handleBtnClick(page.num)}
-            wire={page.wire}>
-              {page.num}
-          </BtnSum>
-        )}
-        <BtnRight src={right} onClick={handleBtnRightClick}/>
-      </LimitPage>
-    </PageBottom>
+            <List>
+              {currents && currents.map(current => 
+              <OrderAll key={current.id}>
+                <Navber>
+                  <NavName>{current.orderid}</NavName>
+                  <Nav>{current.userId}</Nav>
+                  <Nav>{current.totalPrice}</Nav>
+                  <Nav>{current.status}</Nav>
+                </Navber>
+              </OrderAll> )}
+            </List>
+          </ContentAll>
+        </PageTop>
+        <PageBottom>
+          <LimitPage>
+            <BtnLeft src={left} onClick={handleBtnLeftClick}/>
+            {pages && pages.map(page => 
+              <BtnSum 
+                key={page.num}
+                onClick={() => handleBtnClick(page.num)}
+                wire={page.wire}>
+                  {page.num}
+              </BtnSum>
+            )}
+            <BtnRight src={right} onClick={handleBtnRightClick}/>
+        </LimitPage>
+      </PageBottom>
+    </PageContent>
+    ) : (
+      <LoginNone to={'/admain'}>
+        管理員登入
+      </LoginNone>
+    )}
+   
   </Root>
  )
 }

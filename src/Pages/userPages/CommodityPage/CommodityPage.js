@@ -267,12 +267,12 @@ export default function CommodityPage() {
 
   useEffect(()=> {
     dispatch(setProduct())
+    window.scrollTo(0, 0);
   }, [dispatch, id])
 
 
   useEffect(()=> {
     dispatch(setCards(''))
-    console.log('setCard')
   },[dispatch])
 
   const handleIncrement = () => {

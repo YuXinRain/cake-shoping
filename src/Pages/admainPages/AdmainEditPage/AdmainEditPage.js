@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteProductOne, EditPatch, getProduct, getProductOne, setAdmainPhoto, setAdmainProduct } from '../../../Redux/reducers/admainReducer';
+import { deleteProductOne, EditPatch, getProduct, getProductOne, postPhotos, setAdmainPhoto, setAdmainProduct, setError, UploadPhotos } from '../../../Redux/reducers/admainReducer';
 import { Center } from '../../../styledCss';
 import lodding from '../../../image/cat.png';
-import { postPhoto } from '../../../WebAPI';
+import { deletePhoto, getPhotoId, postPhoto } from '../../../WebAPI';
 
 
 const Root = styled.div`
@@ -160,6 +160,7 @@ const NavPrice = styled.div`
 `
 const FromAll = styled.form`
   width: 90%;
+  position: relative;
 `
 const PhotoAll = styled.div`
   box-shadow: 0px 0px 5px rgba(119, 88, 98, 0.5);
@@ -262,10 +263,16 @@ const DeleteButton = styled.div`
   cursor: pointer;
   margin-right: 10px;
 `
+const Error = styled.div`
+  color: red;
+  position: absolute;
+  right: 0;
+  margin-top: 5px;
+`
 function Photo({ index, photo, handleDeleClick }){
   return(
     <PhotoContent key={index}>
-      <Photos src={photo}/>
+      <Photos src={photo.url}/>
       <PhotoDelete onClick={() => handleDeleClick(index)}>x</PhotoDelete>
     </PhotoContent>
   )
@@ -276,6 +283,7 @@ export default function AdmainEditPage() {
   const admainPhoto = useSelector((store) => store.admains.admainPhoto)
   const admainLodding = useSelector((store) => store.admains.isLodding)
   const ProductAll = useSelector((store) => store.admains.ProductAll)
+  const error = useSelector((store) => store.admains.err)
   const { id } = useParams()
   const navigate = useNavigate()
   const [productInfo, setProductInfo] = useState({
@@ -313,6 +321,7 @@ export default function AdmainEditPage() {
         id: admainProduct[0].id.toString() || '0',
       });
     }
+    window.scrollTo(0, 0);
   }, [ admainProduct]);
 
   const handleOpenClick = () => {
@@ -335,29 +344,42 @@ export default function AdmainEditPage() {
     e.preventDefault();
     dispatch(EditPatch({productInfo}))
     navigate('/admain/commodity')
-    postPhoto(admainPhoto, admainProduct[0].id)
   }
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      const fileUrl = URL.createObjectURL(selectedFile);
-      console.log('fileUrl',fileUrl)
-      dispatch(setAdmainPhoto([...admainPhoto, fileUrl]));
-      if(admainPhoto.length > 3){
-        setAddingPhotos(false)
-      }
+  const handleFileChange = async (e) => {
+    let fromData = new FormData();
+    for (let i = 0; i < e.target.files.length; i++) {
+      fromData.append('avatar', e.target.files[i]);
     }
+    fromData.append('productId', admainProduct[0].id.toString());
+    dispatch(postPhotos(fromData, admainProduct[0].id))
+    // postPhoto(fromData).then(res => {
+    //   if(res.ok === 1){
+    //     getPhotoId(admainProduct[0].id).then(data => {
+    //       dispatch(getProductOne(admainProduct[0].id))
+    //       setError('')
+    //     })
+    //   }
+    //   if(res.ok === 0){
+    //     setError(res.message)
+    //   }
+    // }).catch(err => setError(err.message))
   };
 
-  const handleDeleClick = (index) => {
-    console.log(index)
-    const filesDelete = admainPhoto.filter((photo, photoIndex) => photoIndex !== index)
-    dispatch(setAdmainPhoto(filesDelete));
+  const handleDeleClick = (id) => {
+    const filesDelete = admainPhoto.filter((photo) => photo.id !== id)
     if(admainPhoto.length <= 5){
       setAddingPhotos(true)
+    }else{
+      setAddingPhotos(false)
     }
+    deletePhoto(id).then(res => {
+      if(res.ok === 1){
+        dispatch(setAdmainPhoto(filesDelete))
+      }
+    })
   }
+
   const handleDeleteClick = (id) => {
     dispatch(deleteProductOne(id))
     navigate('/admain/commodity')
@@ -380,13 +402,14 @@ export default function AdmainEditPage() {
             <PhotoAll>
               {addingPhotos ? (
                 <NewPhoto> ＋加入照片
-                  <input type="file" onChange={handleFileChange}/>
+                  <input type="file" onChange={handleFileChange} multiple/>
                 </NewPhoto>
               ) : (
                 <StopNew>已上傳最大限度</StopNew>
               )}
-              {admainPhoto && admainPhoto.map((photo, index) => <Photo index={index} photo={photo} handleDeleClick={handleDeleClick}/>)}
+              {admainPhoto && admainPhoto.map((photo, index) => <Photo index={index} photo={photo} handleDeleClick={() => handleDeleClick(photo.id)}/>)}
             </PhotoAll>
+            {error !== '' && (<Error>{error.toString()}</Error>)}
             { admainProduct && (
             <EditAll>
               <NavName>名稱<input type="text" name="productName" value={productInfo.productName} onChange={handleInputChange}/></NavName>

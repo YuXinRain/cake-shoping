@@ -99,7 +99,6 @@ export default function Header() {
     if(location.pathname !== "/commodity"){
       navigate("/commodity")        
     }
-
   }
   const handleModalOpen = () => {
     dispatch(setClickSopping(true))
@@ -140,7 +139,7 @@ export default function Header() {
       {admainLogin ? (
         <HeaderAdmain>
           <Headers admainlogin={admainLogin.toString()}>
-            <Title to="/admain/commodity" admainlogin={admainLogin.toString()}>米の輕手作 管理員</Title>
+            <Title to="/admain/commodity" admainlogin={admainLogin.toString()}>CakeShop 管理員</Title>
             <List>
               <Nav admainlogin={admainLogin.toString()} to="/admain/commodity">商品</Nav>
               <Nav admainlogin={admainLogin.toString()} to="/admain/order">訂單</Nav>

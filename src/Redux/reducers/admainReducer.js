@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { setAuthToken } from '../../token'
-import { deleteProduct, getAdmain, getPhotos, getPosts, PatchProduct, setNewPosts } from '../../WebAPI'
+import { deleteProduct, getAdmain, getPhotoId, getPhotos, getPosts, PatchProduct, postPhoto, setNewPosts } from '../../WebAPI'
 
 const initialState = {
   admainLogin: false,
@@ -49,8 +49,9 @@ export const getProduct = () => async (dispatch) => {
     const photosData = await getPhotos();
     for (let i = 0; i < postsData.result.length; i++) {
       const filteredPhotos = photosData.result.filter(photo => photo.productid === postsData.result[i].id);
-      const updatedPhotos = filteredPhotos.map(res => res.url)
-      updatedContents.push({ ...postsData.result[i], photoUrl: updatedPhotos, isHover: false });
+      console.log('filteredPhotos',filteredPhotos)
+      // const updatedPhotos = filteredPhotos.map(res => res.url)
+      updatedContents.push({ ...postsData.result[i], photoUrl: filteredPhotos, isHover: false });
     }
   await Promise.all(updatedContents)
     .then(results => {
@@ -68,21 +69,24 @@ export const getProductOne = (id) => (dispatch, getState) => {
   const { admains } = getState();
   const { ProductAll } = admains;
   const updatedAdmainProduct = ProductAll.filter(product => 
-    product.id === parseFloat(id)
+    product.id === parseFloat(id),
   )
   dispatch(setAdmainProduct(updatedAdmainProduct))
-  // dispatch(setAdmainPhoto(updatedAdmainProduct[0].photoUrl))
-  
+  const photoUrl = updatedAdmainProduct[0].photoUrl
+  dispatch(setAdmainPhoto(photoUrl))
 }
+
 export const getAdmainLogin = (data) => async (dispatch) => {
   dispatch(setIsLodding(true))
   await getAdmain(data).then(res => {
     if(res.ok === 0){
       dispatch(setError(res.message))
     }
+    if(res.ok === 1){
       setAuthToken(res.token)
       dispatch(setAdmain(true))
       dispatch(setIsLodding(false))
+    }
   })
   .catch(err => dispatch(setError(err)))
 }
@@ -119,6 +123,19 @@ export const deleteProductOne = (id) => (dispatch) => {
       dispatch(setIsLodding(false))
     }  
   })
+}
 
+export const postPhotos = (fromData, id) => (dispatch) => {
+  postPhoto(fromData).then(res => {
+    if(res.ok === 1){
+      getPhotoId(id).then(data => {
+        dispatch(getProductOne(id))
+        dispatch(setError(''))
+      })
+    }
+    if(res.ok === 0){
+      dispatch(setError(res.message))
+    }
+  }).catch(err => dispatch(setError(err.message)))
 }
 export default admainReducer.reducer

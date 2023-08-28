@@ -135,7 +135,7 @@ function Post({ post }){
   const statusText = post.isShow === 1 ? '已上架' : '未上架';
   return(
     <PostAll key={post.id}>
-      <PostPhoto src={post.photoUrl[0]}/>
+      <PostPhoto src={post.photoUrl[0].url}/>
       <ContentName>{post.productName}</ContentName>
       <Content>{post.price}</Content>
       <Content>{statusText}</Content>
@@ -156,11 +156,11 @@ export default function AdmainCommodityPage() {
   const admainLogin = useSelector((store) => store.admains.admainLogin)
   const admainLodding = useSelector((store) => store.admains.isLodding)
   console.log('admainProduct', admainProduct)
-
   useEffect(() => {
     if(admainProduct.length === 0){
       dispatch(getProduct())
     }
+    window.scrollTo(0, 0);
   }, [dispatch, admainProduct.length])
 
 return(

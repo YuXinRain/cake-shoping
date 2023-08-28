@@ -239,8 +239,9 @@ export default function NewPostPage() {
   const navigate = useNavigate()
   const err = useSelector((store) => store.admains.err)
   const newPost = useSelector((store) => store.admains.newPost)
-  console.log('err', err)
-  console.log('newPost', newPost)
+  const admainProduct = useSelector((store) => store.admains.admainProduct)
+
+  console.log('admainProduct', admainProduct)
 
   const handleOpenClick = () => {
     if(isShow === 0){
@@ -277,8 +278,13 @@ export default function NewPostPage() {
       if(files.length > 3){
         setAddingPhotos(false)
       }
-    }
-  };
+    }}
+    // let fromData = new FormData();
+    // for (let i = 0; i < e.target.files.length; i++) {
+    //   fromData.append('avatar', e.target.files[i]);
+    // }
+    // fromData.append('productId', admainProduct[0].id.toString());
+    // };
 
   const handleDeleClick = (index) => {
     const filesDelete = files.filter((photo, i) => i !== index)
@@ -294,6 +300,8 @@ export default function NewPostPage() {
     if(newPost){
       navigate('/admain/commodity')
     }
+    window.scrollTo(0, 0);
+
   },[dispatch, newPost, navigate])
 
  return(

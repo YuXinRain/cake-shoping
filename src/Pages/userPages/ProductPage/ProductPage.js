@@ -164,10 +164,10 @@ export default function ProductPage() {
     setCount(1)
     dispatch(setCards(''))
     navigate('/commodity')
-    window.scrollTo(0, 0);
   }
   useEffect(()=> {
     dispatch(getCard(id))
+    window.scrollTo(0, 0);
   },[dispatch, id]) 
 
   useEffect(() => {

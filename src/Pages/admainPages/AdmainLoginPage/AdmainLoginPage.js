@@ -60,6 +60,7 @@ const ErrorMessage = styled.div`
   color: #ff8587;
   text-align: right;
   padding-top: 10px;
+  margin-top: 5px
 `
 const  Btn = styled.button`
   width: 100px;
@@ -83,7 +84,6 @@ export default function AdmainLoginPage() {
 
   const handleLoginSubmit = () => {
     dispatch(getAdmainLogin({ username, password }));
-    
   };
 
   useEffect(() => {

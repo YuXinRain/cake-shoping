@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { setDelete, setLodding } from '../../../Redux/reducers/productReducer';
+import { setDelete, setLodding, setSoppingCard } from '../../../Redux/reducers/productReducer';
 import { Between, Center } from '../../../styledCss';
 import blackDelete from '../../../image/blackDelete.png'
 import { useEffect, useState } from 'react';
@@ -297,6 +297,7 @@ export default function SoppingPage() {
           if(res.message === 'token 驗證失敗'){
             setError('請先登入會員')
             dispatch(setLodding(false))
+            dispatch(setSoppingCard(''))
           }
         }
         if(res.ok === 1){
