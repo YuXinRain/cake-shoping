@@ -44,7 +44,7 @@ const Title = styled(Link).attrs(props => ({
   padding: 0px 10px;
   font-weight: bold;
   text-decoration: none;
-  color: ${({ admainlogin }) => admainlogin ? 'white' : '#ffb8cf'};
+  color: ${({ admainlogin }) => admainlogin ? 'white' : '#a28876'};
 `
 
 const List = styled.div`

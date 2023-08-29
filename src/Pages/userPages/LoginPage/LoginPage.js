@@ -175,8 +175,14 @@ export default function LoginPage() {
       setPassword('')
     }      
   }
-  const handleLoginToggle = () => {setLogin(true)}
-  const handleRegisterToggle = () => {setLogin(false)}
+  const handleLoginToggle = () => {
+    setLogin(true)
+    dispatch(setError(''))
+  }
+  const handleRegisterToggle = () => {
+    setLogin(false)
+    dispatch(setError(''))
+  }
   const handleUserNameChange = (e) => {setUserName(e.target.value)}
   const handleNameChange = (e) => {setName(e.target.value)}
   const handlePhoneChange = (e) => {setPhone(e.target.value)}

@@ -97,6 +97,7 @@ const PostPhoto = styled.img`
   width: 200px;
   height: 200px;
 `
+
 const NavName = styled.div`
   letter-spacing:5px;
   width: 200px;
@@ -133,9 +134,10 @@ const LoddingImg = styled.img`
 `
 function Post({ post }){
   const statusText = post.isShow === 1 ? '已上架' : '未上架';
+  const check = post.photoUrl.length === 0 ? '' : post.photoUrl[0].url
   return(
     <PostAll key={post.id}>
-      <PostPhoto src={post.photoUrl[0].url}/>
+      <PostPhoto alt="未上傳圖片" src={check}/>
       <ContentName>{post.productName}</ContentName>
       <Content>{post.price}</Content>
       <Content>{statusText}</Content>
@@ -155,7 +157,7 @@ export default function AdmainCommodityPage() {
   const admainProduct = useSelector((store) => store.admains.ProductAll)
   const admainLogin = useSelector((store) => store.admains.admainLogin)
   const admainLodding = useSelector((store) => store.admains.isLodding)
-  console.log('admainProduct', admainProduct)
+  
   useEffect(() => {
     if(admainProduct.length === 0){
       dispatch(getProduct())

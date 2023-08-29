@@ -49,14 +49,11 @@ export const getProduct = () => async (dispatch) => {
     const photosData = await getPhotos();
     for (let i = 0; i < postsData.result.length; i++) {
       const filteredPhotos = photosData.result.filter(photo => photo.productid === postsData.result[i].id);
-      console.log('filteredPhotos',filteredPhotos)
-      // const updatedPhotos = filteredPhotos.map(res => res.url)
       updatedContents.push({ ...postsData.result[i], photoUrl: filteredPhotos, isHover: false });
     }
   await Promise.all(updatedContents)
     .then(results => {
       const updetresulet = results.filter(res => res.isDeleted !== 1)
-      console.log('results', results)
       dispatch(setProductAll(updetresulet))
       dispatch(setIsLodding(false))
     })
@@ -138,4 +135,41 @@ export const postPhotos = (fromData, id) => (dispatch) => {
     }
   }).catch(err => dispatch(setError(err.message)))
 }
+
+export const newProduct = (files, data) => async (dispatch) => {
+  dispatch(setIsLodding(true));
+  const response = await setNewPosts(data); //新增資料進去
+
+  if (response.ok === 1) {
+    console.log('setNewPostsOk')
+    dispatch(getProduct());
+    // dispatch(setNewPost(true));
+    dispatch(setIsLodding(false));
+
+    const productResponse = await getPosts(); //為了抓新的一筆資料的id
+    console.log('productResponse', productResponse)
+    if(productResponse.ok === 1){
+      const upProduct = productResponse.result[productResponse.result.length - 1].id;
+      
+      let fromData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        fromData.append('avatar', files[i]);
+      }
+      fromData.append('productId', upProduct.toString());
+      const photoResponse = await postPhoto(fromData);
+      if(photoResponse.ok === 1){
+        console.log('postPhotoOk')
+      }else {
+        dispatch(setError(photoResponse.message));
+      }
+      }else {
+        dispatch(setError(productResponse.message));
+        dispatch(setIsLodding(false));
+      }
+    } else {
+      dispatch(setError(response.message));
+      dispatch(setIsLodding(false));
+    }
+
+};
 export default admainReducer.reducer

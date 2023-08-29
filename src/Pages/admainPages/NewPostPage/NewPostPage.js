@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { setError, setNewPost, setNewProduct } from '../../../Redux/reducers/admainReducer';
+import { getProduct, newProduct, setError, setNewPost, setNewProduct } from '../../../Redux/reducers/admainReducer';
 import { Center } from '../../../styledCss';
+import { getPosts } from '../../../WebAPI';
 
 const Root = styled.div`
   margin-top: 150px;
@@ -154,6 +155,7 @@ const NavPrice = styled.div`
 `
 const FromAll = styled.form`
   width: 90%;
+  position: relative;
 `
 const PhotoAll = styled.div`
   box-shadow: 0px 0px 5px rgba(119, 88, 98, 0.5);
@@ -211,8 +213,9 @@ const PhotoDelete = styled.div`
 const StopNew = styled.div`
   ${Center};
   position: absolute;
-  bottom: 50px;
   color: red;
+  top: 125px;
+  right: 5px;
 `
 const Err = styled.div`
   color: red;
@@ -220,7 +223,7 @@ const Err = styled.div`
 function Photo({ index, photo, handleDeleClick }){
   return(
     <PhotoContent key={index}>
-      <Photos src={photo}/>
+      <Photos src={URL.createObjectURL(photo)}/>
       <PhotoDelete onClick={() => handleDeleClick(index)}>x</PhotoDelete>
     </PhotoContent>
   )
@@ -239,9 +242,7 @@ export default function NewPostPage() {
   const navigate = useNavigate()
   const err = useSelector((store) => store.admains.err)
   const newPost = useSelector((store) => store.admains.newPost)
-  const admainProduct = useSelector((store) => store.admains.admainProduct)
-
-  console.log('admainProduct', admainProduct)
+  const ProductAll = useSelector((store) => store.admains.ProductAll)
 
   const handleOpenClick = () => {
     if(isShow === 0){
@@ -258,7 +259,16 @@ export default function NewPostPage() {
   const handleTypeChange = (e) => {setProductType(e.target.value)}
 
   const handleFromSubmit = () => {
-    dispatch(setNewProduct({
+    // dispatch(setNewProduct({
+    //   productName, 
+    //   productType,
+    //   price,
+    //   articlel,
+    //   isShow,
+    //   storage,
+    //   sell,
+    // }))
+    dispatch(newProduct(files, {
       productName, 
       productType,
       price,
@@ -267,24 +277,18 @@ export default function NewPostPage() {
       storage,
       sell,
     }))
-
   }
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      const fileUrl = URL.createObjectURL(selectedFile);
-      setFile([...files, fileUrl]);
-      if(files.length > 3){
-        setAddingPhotos(false)
+    const selectedFiles = Array.from(e.target.files);
+    if (selectedFiles.length > 0) {
+      if (files.length + selectedFiles.length > 5) {
+        setAddingPhotos(false);
+      } else {
+        setFile(prevFiles => [...prevFiles, ...selectedFiles]);
       }
-    }}
-    // let fromData = new FormData();
-    // for (let i = 0; i < e.target.files.length; i++) {
-    //   fromData.append('avatar', e.target.files[i]);
-    // }
-    // fromData.append('productId', admainProduct[0].id.toString());
-    // };
+    }
+   }
 
   const handleDeleClick = (index) => {
     const filesDelete = files.filter((photo, i) => i !== index)
@@ -315,7 +319,7 @@ export default function NewPostPage() {
           <PhotoAll>
             {addingPhotos ? (
               <NewPhoto> ＋加入照片
-                <input type="file" onChange={handleFileChange}/>
+                <input type="file" onChange={handleFileChange} multiple/>
               </NewPhoto>
             ) : (
               <StopNew>已上傳最大限度</StopNew>
