@@ -243,7 +243,7 @@ export default function NewPostPage() {
   const err = useSelector((store) => store.admains.err)
   const newPost = useSelector((store) => store.admains.newPost)
   const ProductAll = useSelector((store) => store.admains.ProductAll)
-
+  console.log('files', files)
   const handleOpenClick = () => {
     if(isShow === 0){
       setIsShow(1)

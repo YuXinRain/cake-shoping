@@ -298,6 +298,7 @@ export default function AdmainEditPage() {
   });
   const dispatch = useDispatch()
   const [addingPhotos, setAddingPhotos] = useState(true);
+  console.log('admainPhoto', admainPhoto)
 
   useEffect(() => {
     if(ProductAll.length === 0){
@@ -353,17 +354,6 @@ export default function AdmainEditPage() {
     }
     fromData.append('productId', admainProduct[0].id.toString());
     dispatch(postPhotos(fromData, admainProduct[0].id))
-    // postPhoto(fromData).then(res => {
-    //   if(res.ok === 1){
-    //     getPhotoId(admainProduct[0].id).then(data => {
-    //       dispatch(getProductOne(admainProduct[0].id))
-    //       setError('')
-    //     })
-    //   }
-    //   if(res.ok === 0){
-    //     setError(res.message)
-    //   }
-    // }).catch(err => setError(err.message))
   };
 
   const handleDeleClick = (id) => {

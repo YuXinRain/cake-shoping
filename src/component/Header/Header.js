@@ -9,6 +9,7 @@ import { setAdmain, setIsLodding } from '../../Redux/reducers/admainReducer';
 import { getMe } from '../../WebAPI';
 import shoppingCart from '../../image/shopping-cart.png';
 import loginPhoto from '../../image/login.png';
+import userPhoto from '../../image/user.png'
 import logoutPhoto from '../../image/logout.png';
 import home from '../../image/home.png';
 import { Center } from '../../styledCss';
@@ -52,6 +53,9 @@ const List = styled.div`
 `
 const NavSopping  = styled.div`
   position: relative;
+`
+const UserLogin = styled.div`
+  ${Center}
 `
 const Nav = styled(Link).attrs(props => ({
   admainlogin: props.admainlogin
@@ -173,10 +177,19 @@ export default function Header() {
                   <ImgPhoto src={loginPhoto}/>
                   登入
                   </Nav>}
-                { user && <Nav onClick={handleLoginOut} >
-                  <ImgPhoto src={logoutPhoto}/>
-                  登出
-                </Nav>}
+                { user && (
+                  <UserLogin>
+                    <Nav to='/userData'>
+                      <ImgPhoto src={userPhoto}/>
+                      會員資料
+                    </Nav>
+                    <Nav onClick={handleLoginOut} >
+                      <ImgPhoto src={logoutPhoto}/>
+                      登出
+                    </Nav>
+                  </UserLogin>
+                  
+                )}
               </List>
             </NavbarRight>
           </Headers>

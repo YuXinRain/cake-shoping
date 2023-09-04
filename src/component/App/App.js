@@ -14,6 +14,7 @@ import AdmainCommodityPage from '../../Pages/admainPages/AdmainCommodityPage';
 import AdmainOrderPage from '../../Pages/admainPages/AdmainOrderPage';
 import NewPostPage from '../../Pages/admainPages/NewPostPage/NewPostPage';
 import AdmainEditPage from '../../Pages/admainPages/AdmainEditPage';
+import UserDataPage from '../../Pages/userPages/UserDataPage/UserDataPage';
 
 const Root = styled.div`
 ` 
@@ -28,6 +29,7 @@ export default function App() {
           <Routes>
             <Route exact path="/commodity" element={<CommodityPage/>} />
             <Route exact path="/login" element={<LoginPage/>} /> 
+            <Route exact path="/userData" element={<UserDataPage/>} /> 
             <Route exact path="/sopping" element={<SoppingPage/>} />
             <Route exact path="/register" element={<LoginPage/>} />
             <Route exact path="/product/:id" element={<ProductPage/>} />

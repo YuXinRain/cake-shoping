@@ -55,7 +55,8 @@ export const setProduct = () => async (dispatch) => {
     }
   await Promise.all(updatedContents)
     .then(results => {
-      dispatch(setPosts(results))
+      const updetresulet = results.filter(res => res.isDeleted !== 1)
+      dispatch(setPosts(updetresulet))
       dispatch(setLodding(false))
     })
     .catch(error => {

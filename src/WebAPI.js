@@ -122,17 +122,23 @@ export const getAdmain = (data) => {
   .then(console.log('getAdmain'))
 }
 
-export const getOrder = (limit, page) => {
+export const getOrderId = () => {
   const token = getAuthToken()
-  return fetch(`${BASE_URL}/order?limit=${limit}&page=${page}`, {
+  return fetch(`${BASE_URL}/orderUser`, {
+    method: 'POST',
     headers: {
+      'content-type': 'application/json',
       'authorization': `Bearer ${token}`
     },
+    body: JSON.stringify({
+      "userId": 225
+    })
   })
   .then(res => res.json())
-  .then(data => console.log('getOrder', data))
+  .then(console.log('getOrderId'))
   .catch(err => console.log(err))
 }
+
 export const getOrderAll = () => {
   const token = getAuthToken()
   return fetch(`${BASE_URL}/order`, {
@@ -181,6 +187,7 @@ export const postPhoto = (fromData) => {
 }
 
 export const deletePhoto = (id) => {
+  console.log('id', id)
   const token = getAuthToken()
   return fetch(`${BASE_URL}/photo/${id}`, {
     method: 'DELETE',

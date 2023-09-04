@@ -43,7 +43,6 @@ export const getUser = (data) => (dispatch) => {
    }   
     )
     .catch(err => console.log(err))
-
 }
 
 export const postRegister = (data) => (dispatch) => {

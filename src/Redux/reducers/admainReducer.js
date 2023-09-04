@@ -126,7 +126,7 @@ export const postPhotos = (fromData, id) => (dispatch) => {
   postPhoto(fromData).then(res => {
     if(res.ok === 1){
       getPhotoId(id).then(data => {
-        dispatch(getProductOne(id))
+        dispatch(setAdmainPhoto(data.result))
         dispatch(setError(''))
       })
     }
@@ -142,12 +142,9 @@ export const newProduct = (files, data) => async (dispatch) => {
 
   if (response.ok === 1) {
     console.log('setNewPostsOk')
-    dispatch(getProduct());
-    // dispatch(setNewPost(true));
     dispatch(setIsLodding(false));
 
     const productResponse = await getPosts(); //為了抓新的一筆資料的id
-    console.log('productResponse', productResponse)
     if(productResponse.ok === 1){
       const upProduct = productResponse.result[productResponse.result.length - 1].id;
       
@@ -159,6 +156,8 @@ export const newProduct = (files, data) => async (dispatch) => {
       const photoResponse = await postPhoto(fromData);
       if(photoResponse.ok === 1){
         console.log('postPhotoOk')
+        dispatch(getProduct());
+        dispatch(setNewPost(true));
       }else {
         dispatch(setError(photoResponse.message));
       }

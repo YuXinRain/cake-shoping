@@ -67,7 +67,6 @@ const BtnLeft = styled.img`
   border-radius: 5px;
   cursor: pointer;
 `
-
 const BtnRight = styled.img`
   background: #775862;
   width: 15px;
