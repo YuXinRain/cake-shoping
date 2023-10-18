@@ -27,6 +27,7 @@ export default function App() {
           <SoppingCard />
           <Header />
           <Routes>
+            <Route path="/" element={<CommodityPage />} />
             <Route exact path="/commodity" element={<CommodityPage/>} />
             <Route exact path="/login" element={<LoginPage/>} /> 
             <Route exact path="/userData" element={<UserDataPage/>} /> 

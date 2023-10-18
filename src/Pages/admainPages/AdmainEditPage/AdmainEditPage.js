@@ -298,7 +298,6 @@ export default function AdmainEditPage() {
   });
   const dispatch = useDispatch()
   const [addingPhotos, setAddingPhotos] = useState(true);
-  console.log('admainPhoto', admainPhoto)
 
   useEffect(() => {
     if(ProductAll.length === 0){
@@ -307,6 +306,7 @@ export default function AdmainEditPage() {
     if(ProductAll){
       dispatch(getProductOne(id))
     }
+    window.scrollTo(0, 0);
   },[dispatch, id, ProductAll])
 
   useEffect(() => {
@@ -322,7 +322,6 @@ export default function AdmainEditPage() {
         id: admainProduct[0].id.toString() || '0',
       });
     }
-    window.scrollTo(0, 0);
   }, [ admainProduct]);
 
   const handleOpenClick = () => {

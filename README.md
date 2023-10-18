@@ -1,4 +1,7 @@
 # CAKESHOPING
+## Demo
+後台管理員測試帳號：gunail<br>
+測試密碼：111111
 
 ## Synopsis
 

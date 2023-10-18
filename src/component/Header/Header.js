@@ -55,7 +55,7 @@ const NavSopping  = styled.div`
   position: relative;
 `
 const UserLogin = styled.div`
-  ${Center}
+  ${Center};
 `
 const Nav = styled(Link).attrs(props => ({
   admainlogin: props.admainlogin
@@ -64,7 +64,7 @@ const Nav = styled(Link).attrs(props => ({
   text-decoration: none;
   color: ${({ admainlogin }) => admainlogin ? 'white' : '#a28876'};
   padding: ${({ admainlogin }) => admainlogin ? '0px 30px' : '0px 20px;'};
-  ${Center}
+  ${Center};
 `
 const NavbarRight = styled.div``
 const State = styled.div`
@@ -87,6 +87,7 @@ const ImgPhoto = styled.img`
   height: 25px;
   margin-right: 5px;
 `
+
 export default function Header() {
   const user = useSelector((store) => store.users.user)
   const location = useLocation();
