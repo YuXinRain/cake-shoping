@@ -229,7 +229,6 @@ export default function UserDataPage() {
   const [ pages, setPages ] = useState('')
   const totalOrder = Math.ceil(userOrder.length / 10);
   const userOrderAll = Array.from({ length: totalOrder }, (_, index) => ({ num: index + 1, wire: 1 }));
-  console.log('stateOpen', stateOpen)
   const paging = (sum, page) => {
     const startIndex = (page - 1) * sum;
     const endIndex = startIndex + sum;
@@ -267,7 +266,6 @@ export default function UserDataPage() {
         }
       });
       setPages(updatedPages)
-      console.log(pages)
       paging(9, 1) 
     }
   },[userOrder])

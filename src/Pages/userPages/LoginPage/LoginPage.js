@@ -211,14 +211,6 @@ export default function LoginPage() {
     handleEmailChange,
     handleFocus  }
 
-  useEffect(()=> {    
-    if(localStorage.token !== ''){
-      getMe().then(data => {
-        dispatch(setUser(data.result))
-      })
-    }
-  },[dispatch])
-
   useEffect(()=>{
     if(user){
       navigate('/')

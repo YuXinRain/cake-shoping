@@ -117,7 +117,6 @@ export default function Header() {
     }
   }, [soppingCard])
 
-
   useEffect(() => {
     if(getAuthToken() !== ''){
       getMe().then(res => {

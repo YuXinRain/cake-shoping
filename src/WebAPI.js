@@ -1,6 +1,6 @@
 import { getAuthToken } from "./token"
 
-const BASE_URL = 'https://secure-mountain-41419.herokuapp.com'
+const BASE_URL = process.env.backend_url
 
 export const getPhotos = () => {
     return fetch(`${BASE_URL}/photo`)
