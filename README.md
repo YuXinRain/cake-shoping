@@ -2,6 +2,8 @@
 ## Demo
 後台管理員測試帳號：gunail<br>
 測試密碼：111111
+前台網址：https://cake-shoping-3a43b82d5cd9.herokuapp.com/
+後台網址：https://cake-shoping-3a43b82d5cd9.herokuapp.com/#/admain
 
 ## Synopsis
 
