@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, setUser, postRegister, setError } from '../../../Redux/reducers/userReducer';
+import { getUser, postRegister, setError } from '../../../Redux/reducers/userReducer';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getMe } from '../../../WebAPI';
 import { Center } from '../../../styledCss';
 
 const Root = styled.div`
