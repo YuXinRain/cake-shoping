@@ -8,7 +8,6 @@ const Footer = styled.footer`
   background: #d6d6d6;
   width: 100%;
   ${Center}
-
 `
 const FooterAll = styled.div`
 `

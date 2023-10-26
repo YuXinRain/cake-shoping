@@ -20,6 +20,11 @@ const CardAll = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
+  @media (max-width: 768px) {
+    display: block;
+    margin-top: 10px;
+    height: auto;
+  }
 `
 const Title = styled.div`
   font-family: serif;
@@ -29,16 +34,24 @@ const CardContextLeft = styled.div`
   width: auto;
   padding: 20px;
   height: 100%;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0px;
+  }
 `
 const CardImage = styled.img`
   border-radius: 10px;
   width:100%;
   height: 100%;
+  
 `
 const CardContextRight = styled.div`
   width: auto;
   height: 100%;
   position: relative;
+  @media (max-width: 768px) {
+    margin-top: 20px;
+  }
 `
 
 const CardDescription = styled.pre`
@@ -52,6 +65,10 @@ const CardPrice = styled.div`
   color: #ff6698;
   position: absolute;
   bottom: 110px;
+  @media (max-width: 768px) {
+    position: initial;
+    margin-top: 20px;
+  }
 `
 const CardSell = styled.div`
   font-size: 14px;
@@ -64,6 +81,9 @@ const Sopping = styled.div`
   bottom: 10px;
   display: flex;
   align-items: end;
+  @media (max-width: 768px) {
+    position: initial;
+  }
 `
 const SoppingButton = styled.button`
   width: 200px;
@@ -77,6 +97,9 @@ const SoppingButton = styled.button`
     color: white;
     cursor: pointer;
   }
+  @media (max-width: 768px) {
+    margin-top: 10px;
+  }
 `
 const Amount = styled.div`
   display: flex;
@@ -86,6 +109,10 @@ const Amount = styled.div`
   position: absolute;
   bottom: 70px;
   width: 230px;
+  @media (max-width: 768px) {
+    position: initial;
+    width: 200px;
+  }
 `
 
 const AmountAdd = styled.button`

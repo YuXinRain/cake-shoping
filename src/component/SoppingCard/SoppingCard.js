@@ -38,6 +38,10 @@ const SoppingCards = styled.div`
   background: #3b3b3b;
   height: 100%;
   color: white;
+  @media (max-width: 768px) {  
+    overflow-x: clip;
+    width: 600px;
+  }
 `
 const SoppingRight = styled.div`
   width: 100%;

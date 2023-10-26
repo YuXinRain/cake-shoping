@@ -18,7 +18,11 @@ const LoginForm = styled.form`
   justify-content: center;
   border: 1px solid grey;
   width: 650px;
-  height: 600px;
+  height: auto;
+  @media (max-width: 768px) {  
+    width: 350px;
+    height: auto;
+  }
 `
 const Title = styled.ul`
   align-items: center;
@@ -42,6 +46,13 @@ const Text = styled.div`
     height: 30px;
     margin-top: 30px;
   }
+  @media (max-width: 768px) {  
+    input{
+      width: 250px;
+      height: 30px;
+      margin-top: 30px;
+      }
+  }
 `
 const Content = styled.div`
   ${Center}
@@ -56,11 +67,15 @@ const LoginButton = styled.button`
   ${Center}
   cursor: pointer;
   border-radius: 15px;
+
 `
 
 const LoginAll = styled.div`
   ${Center}
-  margin-top: 50px;
+  margin: 50px 0px;
+  @media (max-width: 768px) {  
+    margin: 30px 0px;
+  }
 `
 const ContentAll = styled.div`
 `

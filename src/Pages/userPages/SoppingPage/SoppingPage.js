@@ -27,6 +27,9 @@ const SoppingPageAll = styled.div`
 const Sopping = styled.div`
   box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
   width:80%;
+  @media (max-width: 768px) {  
+    width:90%;
+  }
 `
 const Content = styled.div`
 
@@ -52,6 +55,9 @@ const List = styled.div`
 const Nav = styled.div`
   width: 100px;
   text-align: center;
+  :not(:first-of-type) {
+    width: 55px;
+  }
 `
 const Tent = styled.div`
   display: flex;
@@ -95,10 +101,17 @@ const OrderAll = styled.div`
   margin-top: 50px;
   width: 80%;
   height: 100%;
+  @media (max-width: 768px) {  
+    display: block;
+    width: 100%;
+  }
 `
 const Order = styled.div`
   width:80%;
   box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
+  @media (max-width: 768px) {  
+    width: 90%;
+  }
 `
 const TextAll = styled.div`
   padding: 20px;
@@ -117,11 +130,20 @@ const Total = styled.div`
   margin-left: 50px;
   width: 30%;
   box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
+  @media (max-width: 768px) {  
+    width: 90%;
+    margin: 50px 0px;
+    padding-bottom: 10px;
+  }
 `
 const SoppingBottom = styled.div`
   width:100%;
   height: 100%;
   ${Center}
+  @media (max-width: 768px) {  
+    margin-left: 20px
+  }
+  
 `
 const StyleTotal = styled.div`  
   text-align: left;
@@ -152,6 +174,7 @@ const PriceButton = styled.button`
   background: #e8ccb0;
   padding: 5px;
   width: 80%;
+
 `
 const Li = styled.div``
 const Err = styled.div`

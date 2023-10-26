@@ -50,9 +50,16 @@ const Title = styled(Link).attrs(props => ({
 
 const List = styled.div`
   display: flex;
+
 `
 const NavSopping  = styled.div`
   position: relative;
+  @media (max-width: 768px) {
+    display: block;
+    width: 50px;
+    margin-right: 15px;
+    text-align: center
+  }
 `
 const UserLogin = styled.div`
   ${Center};
@@ -65,6 +72,13 @@ const Nav = styled(Link).attrs(props => ({
   color: ${({ admainlogin }) => admainlogin ? 'white' : '#a28876'};
   padding: ${({ admainlogin }) => admainlogin ? '0px 30px' : '0px 20px;'};
   ${Center};
+  @media (max-width: 768px) {
+    display: block;
+    width: 50px;
+    margin-right: 15px;
+    text-align: center;
+    padding: 0px;
+  }
 `
 const NavbarRight = styled.div``
 const State = styled.div`
@@ -86,6 +100,12 @@ const ImgPhoto = styled.img`
   width: 25px;
   height: 25px;
   margin-right: 5px;
+  @media (max-width: 768px) {  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
 `
 
 export default function Header() {

@@ -11,6 +11,7 @@ import sweets from '../../../image/sweets.png';
 const Root = styled.div`
   text-align: center;
   margin-bottom: 50px;
+
 `
 const PostCenter = styled.div`
   display: inline-block;
@@ -71,6 +72,12 @@ const SoppingCardAll = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
+  @media (max-width: 768px) {  
+    margin-top: 40px;
+  }
+  @media (max-width: 380px) {  
+    margin-top: 35px;
+  }
 `
 const TurnOff = styled.button`
   font-size: 30px;
@@ -92,12 +99,24 @@ const CardAll = styled.div`
   width: 600px;
   background: white;
   padding: 30px;
-  margin-top: 30px;
   position: relative;
+  @media (max-width: 768px) {
+    width: auto;
+    display: block;
+    margin: 0px;
+    padding: 60px 30px 30px;
+  }
+  @media (max-width: 380px) {  
+    padding: 50px 30px 0px;
+    height: 80%;
+  }
 `
 const CarImage = styled.img`
   width: 300px;
   height: 300px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `
 const CarConext = styled.div`
   margin-top: 10px;
@@ -112,9 +131,18 @@ const CarText = styled.div``
 const CarPrice = styled.div`
   margin-top: 20px;
   text-align: left;
+  @media (max-width: 380px) {
+    margin-top: 5px;
+  }
 `
 const AmountAll = styled.div`
   margin-top: 60px;
+  @media (max-width: 768px) {
+    margin-top: 40px;
+  }
+  @media (max-width: 380px) {
+    margin-top: 10px;
+  }
 `
 const Amount = styled.div`
   display: flex;
@@ -158,7 +186,15 @@ const AmountJoin =  styled.button`
   :hover{
     color: #383838;
   }
-
+  @media (max-width: 768px) {  
+    width: 100%;
+  }
+  @media (max-width: 380px) {  
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    font-size: 22px;
+  }  
 `
 const Lodding = styled.div`
   font-size: 42px;
@@ -189,10 +225,14 @@ const CoverPhoto = styled.img`
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
-
+  @media (max-width: 768px) {
+    width: auto;
+  }
 `
 const CoverPhotoAll = styled.div`
   ${Center};
+  width: auto;
+  object-fit: cover;
 `
 const ProductAll = styled.div`
 `
@@ -206,6 +246,10 @@ const AllProducts = styled.div`
   color: #a28876;
   display: flex;
   align-items: center;
+  @media (max-width: 768px) {
+    width: max-content;
+    margin: 30px auto 0px;
+  }
 `
 const ImgPhoto = styled.img`
   width: 30px;

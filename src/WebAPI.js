@@ -1,18 +1,18 @@
 import { getAuthToken } from "./token"
 
-const BASE_URL = process.env.backend_url
+// const BASE_URL = process.env.backend_url
+const BASE_URL = "https://secure-mountain-41419.herokuapp.com"
 
 export const getPhotos = () => {
-    return fetch(`${BASE_URL}/photo`)
-    .then((res) => res.json())
-    .then(console.log('getPhotos'))
-  }
+  return fetch(`${BASE_URL}/photo`)
+  .then((res) => res.json())
+  .then(console.log('getPhotos'))
+}
 
 export const getPosts = () => {
-    return fetch(`${BASE_URL}/product`)
-    .then((res) => res.json())
-    .then(console.log('getPosts'))
-
+  return fetch(`${BASE_URL}/product`)
+  .then((res) => res.json())
+  .then(console.log('getPosts'))
 }
 
 export const setNewPosts = (data) => {

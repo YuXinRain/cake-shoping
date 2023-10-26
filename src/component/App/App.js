@@ -17,6 +17,7 @@ import AdmainEditPage from '../../Pages/admainPages/AdmainEditPage';
 import UserDataPage from '../../Pages/userPages/UserDataPage/UserDataPage';
 
 const Root = styled.div`
+  overflow-x: hidden;
 ` 
 
 export default function App() {
