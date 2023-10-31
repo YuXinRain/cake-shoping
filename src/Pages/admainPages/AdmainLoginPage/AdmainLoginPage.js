@@ -29,6 +29,10 @@ const LoginForm = styled.form`
   border: 1px solid grey;
   width: 650px;
   height: 600px;
+  @media (max-width: 768px) {
+    width: 350px;
+    height: auto;
+  }
 `
 const Title = styled.ul`
   align-items: center;
@@ -49,10 +53,17 @@ const FormAll = styled.div`
 
 const Text = styled.div`
 margin-top: 30px;
-input{
+  input{
     width: 500px;
     height: 30px;
     margin-top: 30px;
+  }
+  @media (max-width: 768px) {  
+    input{
+      width: 250px;
+      height: 30px;
+      margin-top: 30px;
+      }
   }
 `
 const Nav = styled.div``
@@ -72,6 +83,9 @@ const  Btn = styled.button`
 const Login = styled.div`
   margin-top: 50px;
   ${Center}
+  @media (max-width: 768px) {  
+    margin: 30px 0px;
+  }
 `
 export default function AdmainLoginPage() {
   const isLodding = useSelector((store) => store.users.isLodding)

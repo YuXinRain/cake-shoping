@@ -46,20 +46,22 @@ const Title = styled(Link).attrs(props => ({
   font-weight: bold;
   text-decoration: none;
   color: ${({ admainlogin }) => admainlogin ? 'white' : '#a28876'};
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+  @media (max-width: 380px) {  
+    display: contents;
+  } 
 `
 
 const List = styled.div`
   display: flex;
-
+  @media (max-width: 768px) {
+    margin-right: 10px;
+  }
 `
 const NavSopping  = styled.div`
   position: relative;
-  @media (max-width: 768px) {
-    display: block;
-    width: 50px;
-    margin-right: 15px;
-    text-align: center
-  }
 `
 const UserLogin = styled.div`
   ${Center};
@@ -70,12 +72,12 @@ const Nav = styled(Link).attrs(props => ({
   font-size: 16px;
   text-decoration: none;
   color: ${({ admainlogin }) => admainlogin ? 'white' : '#a28876'};
-  padding: ${({ admainlogin }) => admainlogin ? '0px 30px' : '0px 20px;'};
+  padding: ${({ admainlogin }) => admainlogin ? '0px 30px' : '0px 20px'};
   ${Center};
   @media (max-width: 768px) {
     display: block;
     width: 50px;
-    margin-right: 15px;
+    margin-right: 7px;
     text-align: center;
     padding: 0px;
   }
@@ -94,7 +96,8 @@ const State = styled.div`
   justify-content: center;
   display: flex;
 `
-const HeaderAdmain = styled.div``
+const HeaderAdmain = styled.div`
+`
 const HeaderUser = styled.div``
 const ImgPhoto = styled.img`
   width: 25px;
@@ -121,8 +124,8 @@ export default function Header() {
     setAuthToken(" ")
     dispatch(setUser(null))
     dispatch(setAdmain(false))
-    if(location.pathname !== "/commodity"){
-      navigate("/commodity")        
+    if(location.pathname !== "/"){
+      navigate("/")        
     }
   }
   const handleModalOpen = () => {
@@ -163,7 +166,7 @@ export default function Header() {
       {admainLogin ? (
         <HeaderAdmain>
           <Headers admainlogin={admainLogin.toString()}>
-            <Title to="/admain/commodity" admainlogin={admainLogin.toString()}>CakeShop 管理員</Title>
+            <Title to="/admain/commodity" admainlogin={admainLogin.toString()}>CakeShop管理員</Title>
             <List>
               <Nav admainlogin={admainLogin.toString()} to="/admain/commodity">商品</Nav>
               <Nav admainlogin={admainLogin.toString()} to="/admain/order">訂單</Nav>
@@ -201,7 +204,7 @@ export default function Header() {
                   <UserLogin>
                     <Nav to='/userData'>
                       <ImgPhoto src={userPhoto}/>
-                      會員資料
+                      會員
                     </Nav>
                     <Nav onClick={handleLoginOut} >
                       <ImgPhoto src={logoutPhoto}/>

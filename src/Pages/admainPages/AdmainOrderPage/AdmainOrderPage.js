@@ -13,6 +13,9 @@ const Root = styled.div`
   margin-top: 150px;
   ${Center}
   margin-bottom: 50px;
+  @media (max-width: 768px) {
+    margin-top: 100px;
+  }
 `
 const PageTop = styled.div`
   width: 100%;
@@ -26,6 +29,9 @@ const Title = styled.div`
   color: white;
   letter-spacing:5px;
   ${Between}
+  @media (max-width: 768px) {
+    padding: 20px 15px;
+  }
 `
 const ContentTitle = styled.div``
 
@@ -82,6 +88,12 @@ const OrderAll = styled.div`
 const NavName = styled.div`
   letter-spacing:2px;
   width: 250px;
+  @media (max-width: 768px) {
+    padding: 10px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 `
 const BtnSum = styled.div`
   text-align: center;
@@ -121,6 +133,9 @@ const LoginNone = styled(Link)`
 `
 const PageContent = styled.div`
   width: 80%;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `
 export default function AdmainOrderPage() {
   const [ pages, setPages ] = useState('')

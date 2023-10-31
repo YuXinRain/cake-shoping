@@ -8,6 +8,7 @@ import userEdit from '../../../image/userEdit.png';
 import userEditIcon from '../../../image/userEditIcon.png';
 import userLeft from '../../../image/user-left.png';
 import userRight from '../../../image/user-right.png';
+import { Link } from 'react-router-dom';
 
 const Root = styled.div`
   margin: 100px 0px 30px 0px;
@@ -19,6 +20,10 @@ const UserPage = styled.div`
   width: 50%;
   height: 800px;
   border-radius: 10px;
+  @media (max-width: 768px) {
+    width: 90%;
+    height: auto;
+  }
 `
 const List = styled.div`
   display: flex;
@@ -45,7 +50,9 @@ const OrderData = styled.div`
 const ContentAll = styled.div`
   padding: 50px 100px;
   letter-spacing: 2px;
-
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `
 const TitleName = styled.div`
   margin: 20px 0px;
@@ -113,6 +120,11 @@ const Con = styled.div`
   width: 30%;
   text-align: center;
   margin: 10px;
+  @media (max-width: 768px) {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 `
 const Text = styled.div`
   width: 30%;
@@ -151,6 +163,15 @@ const BtnSum = styled.div`
   color: #775862;
   ${({ wire }) => wire === 0 && 'border-bottom: 2px solid black'};
   ${({ wire }) => wire === 1 && 'border-bottom: none'};
+`
+const UserNone = styled(Link)`
+  letter-spacing: 2px;
+  cursor: pointer;
+  color: #775862;
+  text-decoration: none;
+  box-shadow: 0px 1px 7px rgba(119, 88, 98, 0.5);
+  padding: 10px;
+  border-radius: 10px;
 `
 function Order({ pagings, handleBtnRightClick, handleBtnLeftClick, handleBtnClick, pages }) {
   return(
@@ -217,7 +238,7 @@ function MemberProfile({ userAll, handleInputChange }) {
 }
 export default function UserDataPage() {
   // const dispatch = useDispatch()
-  const userData = useSelector((store) => store.users.user[0])
+  const userData = useSelector((store) => store.users.user)
   const [ stateOpen, setStateOpen ] = useState(true)
   const [ userAll, setUserAll ] = useState({
     userName: " ",
@@ -244,15 +265,15 @@ export default function UserDataPage() {
   useEffect(() => {
     userData && (
       setUserAll({
-        userName: userData.realName || '',
-        userEmail: userData.email || '',
-        userPhone: userData.phone || ''
+        userName: userData[0].realName || '',
+        userEmail: userData[0].email || '',
+        userPhone: userData[0].phone || ''
       })
     )
   },[userData])
   useEffect(() => {
     userData && (
-      getOrderId(userData.id.toString())
+      getOrderId(userData[0].id.toString())
         .then(res => setUserOrder(res.result)))
   },[userData])
   
@@ -332,7 +353,8 @@ export default function UserDataPage() {
   }
   return (
     <Root>
-      <UserPage>
+      {userData && (
+        <UserPage>
         <List>
           <Material onClick={handleOpenClick} stateOpen={stateOpen}>個人資料</Material>
           <OrderData onClick={handleCloseClick} stateOpen={stateOpen}>訂單</OrderData>
@@ -347,6 +369,12 @@ export default function UserDataPage() {
             pages={pages}/>
         )}
       </UserPage>
+      )}
+      {userData === null && (
+        <UserNone  to={'/login'}>
+          尚未登入
+        </UserNone>
+      )}
     </Root>
   );
 }

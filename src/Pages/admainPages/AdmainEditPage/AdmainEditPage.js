@@ -5,13 +5,16 @@ import styled from 'styled-components';
 import { deleteProductOne, EditPatch, getProduct, getProductOne, postPhotos, setAdmainPhoto, setAdmainProduct, setError, UploadPhotos } from '../../../Redux/reducers/admainReducer';
 import { Center } from '../../../styledCss';
 import lodding from '../../../image/cat.png';
-import { deletePhoto, getPhotoId, postPhoto } from '../../../WebAPI';
+import { deletePhoto} from '../../../WebAPI';
 
 
 const Root = styled.div`
   margin-top: 150px;
   ${Center}
   margin-bottom: 50px;
+  @media (max-width: 768px) {
+    margin-top: 100px;
+  }
 `
 const Article = styled.div`
   margin-top: 30px;
@@ -64,6 +67,9 @@ const Content = styled.div`
 const ContentAll = styled.div`
   box-shadow: 0px 1px 7px rgba(119, 88, 98, 0.5);
   width:50%;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `
 const Nav = styled.div`
   font-size: 18px;
@@ -76,7 +82,9 @@ const Nav = styled.div`
     border: none;
     background: #e7e1e3;
     border-radius: 5px;
+
   }
+  
 `
 const ButtonStyle = styled.div`
   width: 55px;
@@ -140,6 +148,7 @@ const SelectAll = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
 `
 const NavType = styled.div`
   font-size: 18px;
@@ -169,6 +178,12 @@ const PhotoAll = styled.div`
   display: inline-flex;
   align-items: center;
   overflow: hidden;
+  @media (max-width: 768px) {
+    height: 100px;
+    white-space: nowrap;
+    overflow-x: auto;
+    /* width: auto; */
+  }
 `
 const NewPhoto = styled.div`
   height: 100px;
@@ -188,12 +203,21 @@ const NewPhoto = styled.div`
     opacity: 0;
     cursor: pointer;
   }
+  @media (max-width: 768px) {
+    height: 80px;
+    width: 80px;
+    font-size: 12px;
+  }
 `
 const PhotoContent = styled.div`
   height: 100px;
   width: 100px;
   position: relative;
   margin-left: 15px;
+  @media (max-width: 768px) {
+    height: 80px;
+    width: 80px;
+  }
 `
 
 const Photos = styled.img`
@@ -201,6 +225,10 @@ const Photos = styled.img`
   width: 100px;
   border: 1px dashed #e7e1e3;
   ${Center}
+  @media (max-width: 768px) {
+    height: 80px;
+    width: 80px;
+  }
 `
 
 const PhotoDelete = styled.div`
