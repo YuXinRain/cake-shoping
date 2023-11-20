@@ -161,7 +161,7 @@ const PriceTotal = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px;
-  margin-bottom: 10px;
+  margin-bottom: 9px;
 `
 const TextName = styled.div`
   margin: 15px;
