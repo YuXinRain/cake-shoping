@@ -117,9 +117,7 @@ const Content = styled.div`
     padding-left: 20px;
     text-align: left;
     width: 100%;
-    /* white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; */
+
     letter-spacing: 3px;
     color: #775862;
     :first-child{

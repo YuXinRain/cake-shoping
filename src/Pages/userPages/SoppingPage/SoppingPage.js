@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
-import { setDelete, setLodding, setSoppingCard } from '../../../Redux/reducers/productReducer';
+import { clearShoppingCard, setDelete, setLodding } from '../../../Redux/reducers/productReducer';
 import { Between, Center } from '../../../styledCss';
 import blackDelete from '../../../image/blackDelete.png'
 import { useEffect, useState } from 'react';
 import { postNewOrder } from '../../../WebAPI';
 import lodding from '../../../image/cat.png';
 import { useNavigate } from 'react-router-dom';
+import { getAuthToken } from '../../../token';
 
 const size = css`
   width: 100px;
@@ -234,8 +235,9 @@ const LoddingImg = styled.img`
   margin-right: 5px;
 `
 const OrderContext = styled.div``
+
 export default function SoppingPage() {
-  const soppingCard = useSelector((store) => store.products.soppingCard)
+  const soppingCard = useSelector((store) => store.products.soppingCard || [ ])
   const dispatch = useDispatch()
   const [ soppingprice, setSoppingprice ] = useState('')
   const fara = 60
@@ -273,6 +275,7 @@ export default function SoppingPage() {
       dispatch(setLodding(false))
     }
   },[order,dispatch])
+
   useEffect(() => {
     const foundItem = soppingCard.map((post) => {
       return {
@@ -283,7 +286,7 @@ export default function SoppingPage() {
     });
     setProductInfo({
       ...productInfo,
-      productList: foundItem || '',
+      productList: foundItem || ' ',
     })
   }, [soppingCard])
   
@@ -300,7 +303,6 @@ export default function SoppingPage() {
       const fareTotal = total + fara
       setSoppingprice(fareTotal)
     }
-
     calculateSoppingprice();
   }, [soppingCard, soppingprice, fara])
   
@@ -314,20 +316,18 @@ export default function SoppingPage() {
 
   const handlePriceClick = () => {
     dispatch(setLodding(true))
-    if(productInfo){
+    if(getAuthToken() !== ' '){
+      if(productInfo){
       postNewOrder(productInfo).then(res => {
-        if(res.ok === 0){
-          if(res.message === 'token 驗證失敗'){
-            setError('請先登入會員')
-            dispatch(setLodding(false))
-            dispatch(setSoppingCard(''))
-          }
-        }
         if(res.ok === 1){
           setOrder(res)
           dispatch(setLodding(false))
         }
       })}
+    }else{
+      setError('請先登入會員')
+    }
+
     if(order === ''){
       dispatch(setLodding(false))
     }
@@ -336,6 +336,7 @@ export default function SoppingPage() {
   const handleOrderCloseClick = () => {
     setOrder('')
     navigate('/commodity')
+    dispatch(clearShoppingCard())
   }
   return (
     <Root>
@@ -365,7 +366,7 @@ export default function SoppingPage() {
             <Nav>刪除</Nav>
           </List>
           <Content>
-            {soppingCard.map(data => 
+            {soppingCard && soppingCard.map(data => 
             <Tent key={data.card[0].id}>
               <Img src={data.cardUrl.url}></Img>
               <Price>{data.card[0].price}</Price>

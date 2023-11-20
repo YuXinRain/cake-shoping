@@ -141,7 +141,7 @@ export default function Header() {
   }, [soppingCard])
 
   useEffect(() => {
-    if(getAuthToken() !== ''){
+    if(getAuthToken() !== ' '){
       getMe().then(res => {
         if(res.ok === 1){
           dispatch(setUser(res.result))

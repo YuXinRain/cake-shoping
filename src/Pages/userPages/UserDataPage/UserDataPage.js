@@ -18,7 +18,6 @@ const Root = styled.div`
 const UserPage = styled.div`
   border: 1px solid black;
   width: 50%;
-  height: 800px;
   border-radius: 10px;
   @media (max-width: 768px) {
     width: 90%;

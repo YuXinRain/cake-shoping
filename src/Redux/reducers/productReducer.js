@@ -139,4 +139,8 @@ export const getCensorCard = (previous, newData, data) => (dispatch) => {
     }
   }
 }
+export const clearShoppingCard = () => (dispatch) => {
+  dispatch(setSoppingCard([]))
+}
+
 export default productReducer.reducer
