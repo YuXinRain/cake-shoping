@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getProduct, newProduct, setError, setNewPost, setNewProduct } from '../../../Redux/reducers/admainReducer';
+import { getProduct, newProduct, setError, setIsLodding, setNewPost, setNewProduct } from '../../../Redux/reducers/admainReducer';
 import { Center } from '../../../styledCss';
 import { getPosts } from '../../../WebAPI';
+import lodding from '../../../image/cat.png';
 
 const Root = styled.div`
   margin-top: 150px;
@@ -220,6 +221,24 @@ const StopNew = styled.div`
 const Err = styled.div`
   color: red;
 `
+const Lodding = styled.div`
+  font-size: 42px;
+  background: #faf1eb;
+  ${Center}
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: #a28876;
+  z-index: 222;
+`
+const LoddingImg = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-bottom: 25px;
+  margin-right: 5px;
+`
 function Photo({ index, photo, handleDeleClick }){
   return(
     <PhotoContent key={index}>
@@ -242,8 +261,8 @@ export default function NewPostPage() {
   const navigate = useNavigate()
   const err = useSelector((store) => store.admains.err)
   const newPost = useSelector((store) => store.admains.newPost)
-  const ProductAll = useSelector((store) => store.admains.ProductAll)
-  console.log('files', files)
+  const admainLodding = useSelector((store) => store.admains.isLodding)
+
   const handleOpenClick = () => {
     if(isShow === 0){
       setIsShow(1)
@@ -259,15 +278,7 @@ export default function NewPostPage() {
   const handleTypeChange = (e) => {setProductType(e.target.value)}
 
   const handleFromSubmit = () => {
-    // dispatch(setNewProduct({
-    //   productName, 
-    //   productType,
-    //   price,
-    //   articlel,
-    //   isShow,
-    //   storage,
-    //   sell,
-    // }))
+    dispatch(setIsLodding(true));
     dispatch(newProduct(files, {
       productName, 
       productType,
@@ -310,6 +321,11 @@ export default function NewPostPage() {
 
  return(
   <Root>
+    {admainLodding &&
+      <Lodding>
+        <LoddingImg src={lodding} />
+        Lodding
+      </Lodding>}
     <ContentAll>
       <Title>
         新增商品
@@ -352,7 +368,7 @@ export default function NewPostPage() {
           <StoreAll>
             <Store>
               <StoreBtn>
-                儲存
+                上傳
               </StoreBtn>
             </Store>
           </StoreAll>

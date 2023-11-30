@@ -63,6 +63,7 @@ export const getMe = () => {
 })
   .then(res => res.json())
   .then(console.log('getMe'))
+  .catch(data => console.log(data))
 }
 
 export const getRegister = (data) => {
@@ -219,4 +220,39 @@ export const PatchProduct = (data) => {
   })
   .then(res => res.json())
   .then(console.log('PatchProduct'))
+}
+
+export const PatchUser = (data) => {
+  const token = getAuthToken()
+  return fetch(`${BASE_URL}/user`, {
+    method: 'PATCH',
+    headers: {
+      'content-type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      "email": data.userEmail,
+      "realName": data.userName,
+      "phone": data.userPhone,
+    })
+  })
+  .then(res => res.json())
+  .then(console.log('PatchUser'))
+}
+export const PatchOrder = (data) => {
+  const token = getAuthToken()
+  return fetch(`${BASE_URL}/order`, {
+    method: 'PATCH',
+    headers: {
+      'content-type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      "orderId": data.orderid,
+      "status": data.status,
+    })
+  })
+  .then(res => res.json())
+  .then(console.log('data',data))
+  .then(console.log('PatchOrder'))
 }

@@ -241,7 +241,7 @@ export default function AdmainCommodityPage() {
   const admainProduct = useSelector((store) => store.admains.ProductAll)
   const admainLogin = useSelector((store) => store.admains.admainLogin)
   const admainLodding = useSelector((store) => store.admains.isLodding)
-  const [ rwdOpen, setRwdOpen ] = useState(true)
+  const [ rwdOpen, setRwdOpen ] = useState()
   window.onresize = () => {
     const currentWindowWidth = window.innerWidth;
       if (currentWindowWidth <= 768) {
@@ -250,7 +250,9 @@ export default function AdmainCommodityPage() {
         setRwdOpen(false)
       }
   }
-
+  useEffect(() => {
+    
+  })
   useEffect(() => {
     if(admainProduct.length === 0){
       dispatch(getProduct())

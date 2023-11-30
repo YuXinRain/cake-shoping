@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Center } from '../../../styledCss';
-import { getOrderId } from '../../../WebAPI';
+import { getOrderId, PatchUser } from '../../../WebAPI';
 import userEdit from '../../../image/userEdit.png';
 import userEditIcon from '../../../image/userEditIcon.png';
 import userLeft from '../../../image/user-left.png';
 import userRight from '../../../image/user-right.png';
 import { Link } from 'react-router-dom';
+import { patchUserAll } from '../../../Redux/reducers/userReducer';
 
 const Root = styled.div`
   margin: 100px 0px 30px 0px;
@@ -49,6 +50,7 @@ const OrderData = styled.div`
 const ContentAll = styled.div`
   padding: 50px 100px;
   letter-spacing: 2px;
+  position: relative;
   @media (max-width: 768px) {
     padding: 20px;
   }
@@ -172,6 +174,17 @@ const UserNone = styled(Link)`
   padding: 10px;
   border-radius: 10px;
 `
+const Save = styled.div` 
+  padding: 10px;
+  border-radius: 10px;
+  background: #e8ccb0;
+  width: 50px;
+  text-align: center;
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  cursor: pointer;
+`
 function Order({ pagings, handleBtnRightClick, handleBtnLeftClick, handleBtnClick, pages }) {
   return(
     <OrderAll key={pagings.userId}>
@@ -209,7 +222,7 @@ function Order({ pagings, handleBtnRightClick, handleBtnLeftClick, handleBtnClic
 }
 
 
-function MemberProfile({ userAll, handleInputChange }) {
+function MemberProfile({ userAll, handleInputChange, handleSaveClick }) {
   return(
     <ContentAll>
       <TitleName>
@@ -232,11 +245,12 @@ function MemberProfile({ userAll, handleInputChange }) {
           <input type='text' name="userPhone" value={userAll.userPhone} onChange={handleInputChange}/>
         </Sub>
       </SubAll>
+      <Save onClick={handleSaveClick}>儲存</Save>
     </ContentAll>
   )
 }
 export default function UserDataPage() {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const userData = useSelector((store) => store.users.user)
   const [ stateOpen, setStateOpen ] = useState(true)
   const [ userAll, setUserAll ] = useState({
@@ -257,10 +271,8 @@ export default function UserDataPage() {
       setPagings(paginatedData)
     }
   }
-
   const handleOpenClick = () => {userData && setStateOpen(true)}
   const handleCloseClick = () => {setStateOpen(false)}
-
   useEffect(() => {
     userData && (
       setUserAll({
@@ -350,6 +362,9 @@ export default function UserDataPage() {
       paging(9, id)
     }
   }
+  const handleSaveClick = () => {
+    dispatch(patchUserAll(userAll))
+  }
   return (
     <Root>
       {userData && (
@@ -358,7 +373,7 @@ export default function UserDataPage() {
           <Material onClick={handleOpenClick} stateOpen={stateOpen}>個人資料</Material>
           <OrderData onClick={handleCloseClick} stateOpen={stateOpen}>訂單</OrderData>
         </List>
-        {stateOpen ? (<MemberProfile userAll={userAll} handleInputChange={handleInputChange}/>
+        {stateOpen ? (<MemberProfile userAll={userAll} handleInputChange={handleInputChange} handleSaveClick={handleSaveClick}/>
         ) : (
           pagings && <Order 
             pagings={pagings}

@@ -2,12 +2,17 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Center, Between } from '../../../styledCss';
-import { getOrderAll } from '../../../WebAPI';
+import { getOrderAll, PatchOrder } from '../../../WebAPI';
 import left from '../../../image/left.png';
 import right from '../../../image/right.png';
 import Search from '../../../image/search.png'
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import pen from '../../../image/pen.png';
+import Dropdown from 'react-bootstrap/Dropdown';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 const Root = styled.div`
   margin-top: 150px;
@@ -83,6 +88,7 @@ const BtnRight = styled.img`
 
 `
 const OrderAll = styled.div`
+  position: relative;
 `
 
 const NavName = styled.div`
@@ -137,6 +143,7 @@ const PageContent = styled.div`
     width: 90%;
   }
 `
+
 export default function AdmainOrderPage() {
   const [ pages, setPages ] = useState('')
   const [ currents, setCurrents ] = useState('')
@@ -153,11 +160,9 @@ export default function AdmainOrderPage() {
     const endIndex = startIndex + sum;
     if(resOk){
       const paginatedData = resOk.slice(startIndex, endIndex);
-      console.log('resOk',paginatedData)
       setCurrents(paginatedData)
     }else{
       const paginatedData = orderAll.slice(startIndex, endIndex);
-      console.log('orderAll',paginatedData)
       setCurrents(paginatedData)
     }
   }
@@ -247,6 +252,38 @@ export default function AdmainOrderPage() {
 
     }
 
+  const handleUploadClick = (e) => {
+    const parentElement = e.target.parentElement.parentElement.parentElement.parentElement.firstChild.textContent
+    const updatedCurrents = [...currents]
+    for (let i = 0; i < currents.length; i++) {
+      if(updatedCurrents[i].orderid === parentElement){
+        if(updatedCurrents[i].status === 0){
+          updatedCurrents[i] = {
+            ...updatedCurrents[i],
+            status: 1,
+          };
+          setCurrents(updatedCurrents)
+          PatchOrder(updatedCurrents[i]).then(res =>{
+            if(res.ok === 1){
+              getOrderAll().then(data => setOrderAll(data.result))
+            }
+          })
+        }else if(updatedCurrents[i].status !== 0){
+          updatedCurrents[i] = {
+            ...updatedCurrents[i],
+            status: 0,
+          };
+          setCurrents(updatedCurrents)
+          PatchOrder(updatedCurrents[i]).then(res =>{
+            if(res.ok === 1){
+              getOrderAll().then(data => setOrderAll(data.result))
+            }
+          })
+        }
+      }
+    }
+    }
+
   useEffect(() => {
     getOrderAll().then(res => setOrderAll(res.result))
   }, [])
@@ -274,6 +311,8 @@ export default function AdmainOrderPage() {
       paging(10, 1)
   }
   },[orderAll.length, resOk])
+  
+
  return(
   <Root>
     {admainLogin ? (
@@ -297,13 +336,26 @@ export default function AdmainOrderPage() {
             </Navber>
             <List>
               {currents && currents.map(current => 
+
               <OrderAll key={current.id}>
                 <Navber>
                   <NavName>{current.orderid}</NavName>
                   <Nav>{current.userId}</Nav>
                   <Nav>{current.totalPrice}</Nav>
-                  <Nav>{current.status}</Nav>
+                  <Nav>
+                    <Dropdown>
+                      <Dropdown.Toggle variant="success" id="dropdown-basic">
+                        {current.status === 1 ? '已上架' : '未上架'}
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={handleUploadClick}>
+                          {current.status === 0 ? '已上架' : '未上架'}
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                    </Nav>
                 </Navber>
+                {/* <EditBttton src={pen} onClick={handleOpenClick}/> */}
               </OrderAll> )}
             </List>
           </ContentAll>

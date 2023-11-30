@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { getLogin, getMe, getRegister } from '../../WebAPI'
+import { getLogin, getMe, getRegister, PatchUser } from '../../WebAPI'
 import { setAuthToken } from '../../token'
 
 const initialState = {
@@ -61,5 +61,17 @@ export const postRegister = (data) => (dispatch) => {
         }).catch(err => console.log(err))
 })
     .catch(err=> console.log(err))
+}
+
+export const patchUserAll = (data) => (dispatch) => {
+    PatchUser(data).then(res => {
+        if(res.ok === 1){
+            getMe().then(text => {
+                if(text.ok === 1){
+                    dispatch(setUser(text.result))
+                }
+            }).catch(err => console.log(err))
+        }
+    })
 }
 export default userReducer.reducer

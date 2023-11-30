@@ -119,7 +119,6 @@ export default function Header() {
   const soppingCard = useSelector((store) => store.products.soppingCard)
   const [ status, setStatus ] = useState(false)
   const admainLogin = useSelector((store) => store.admains.admainLogin)
-
   const handleLoginOut = () => {
     setAuthToken(" ")
     dispatch(setUser(null))

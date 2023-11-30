@@ -323,7 +323,9 @@ export default function SoppingPage() {
           setOrder(res)
           dispatch(setLodding(false))
         }
-      })}
+      })
+      .catch(err => console.log(err))
+    }
     }else{
       setError('請先登入會員')
     }

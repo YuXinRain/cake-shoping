@@ -137,7 +137,6 @@ export const postPhotos = (fromData, id) => (dispatch) => {
 }
 
 export const newProduct = (files, data) => async (dispatch) => {
-  dispatch(setIsLodding(true));
   const response = await setNewPosts(data); //新增資料進去
 
   if (response.ok === 1) {
