@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getAdmainLogin, setError } from '../../../Redux/reducers/admainReducer';
 import { Button, Center } from '../../../styledCss';
+import { setAuthToken } from '../../../token';
 
 const Root = styled.div`
   margin-top: 150px;
@@ -99,6 +100,10 @@ export default function AdmainLoginPage() {
   const handleLoginSubmit = () => {
     dispatch(getAdmainLogin({ username, password }));
   };
+
+  useEffect(() => {
+    setAuthToken(" ")
+  }, [])
 
   useEffect(() => {
     dispatch(setError(''))

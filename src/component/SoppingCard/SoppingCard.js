@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { setClickSopping, setDelete } from '../../Redux/reducers/productReducer';
+import { setClickSopping, setDelete, setError } from '../../Redux/reducers/productReducer';
 import dele from '../../image/delete.png'
-import { Center } from '../../styledCss';
-import { Link } from 'react-router-dom';
+import { Between, Center } from '../../styledCss';
+import { Link, useNavigate } from 'react-router-dom';
+import { getAuthToken } from '../../token';
 
 const Root = styled.div`
 
@@ -85,6 +86,7 @@ const Delete = styled.img`
 `
 const NoMore = styled.div``
 const CardTitle = styled.div`
+  ${Between};
   padding: 20px;
   font-size: 20px;
   box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.5);
@@ -92,7 +94,7 @@ const CardTitle = styled.div`
 const CardContent = styled.div`
   padding: 15px;
 `
-const Checkout = styled(Link)`
+const Checkout = styled.div`
   margin-top: 20px;
   ${Center}
   cursor: pointer;
@@ -109,7 +111,10 @@ const Order = styled.button`
   color: white;
   cursor: pointer;
   border: none;
-  
+`
+const Error = styled.div`
+  color: #ff616e;
+  font-size: 16px;
 `
 function SoppingTotal({ soppingCard, handleDeleteClick, handleBuyClick }){
   const id = soppingCard.card[0].id
@@ -131,17 +136,19 @@ function SoppingTotal({ soppingCard, handleDeleteClick, handleBuyClick }){
   )
 }
 
-function SoppingModal({ handleBuyClick, soppingCard, handleDeleteClick }){
+function SoppingModal({ err, handleBuyClick, soppingCard, handleDeleteClick }){
   return(
   <SoppingAll>
     <SoppingCards>
-      <CardTitle>購物車</CardTitle>
+      <CardTitle>購物車
+        {err && <Error>{err}</Error>}
+      </CardTitle>
       <CardContent>
         {soppingCard.length === 0 && <NoMore>請挑選商品</NoMore>}
         {soppingCard.map((card) => <SoppingTotal key={card.card[0].id} soppingCard={card} handleDeleteClick={handleDeleteClick} />)}
       </CardContent>
       {soppingCard.length !== 0 && 
-      <Checkout to="/sopping" onClick={handleBuyClick}>
+      <Checkout onClick={handleBuyClick}>
         <Order>
           訂單結帳
         </Order>
@@ -155,12 +162,21 @@ export default function SoppingCard() {
   const clickSopping = useSelector((store) => store.products.clickSopping)
   const dispatch = useDispatch()
   const soppingCard = useSelector((store) => store.products.soppingCard)
-
+  const err = useSelector((store) => store.products.err)
+  const navigate = useNavigate();
   const handleDeleteClick = id => {
     dispatch(setDelete(id))
   }
   const handleBuyClick = () => {
-    dispatch(setClickSopping(false))
+    if(getAuthToken() !== ' '){
+      dispatch(setClickSopping(false))
+      navigate("/sopping")
+    }else{
+      dispatch(setError('請先登入會員'))
+      if(err !== ' '){
+        dispatch(setClickSopping(false))
+      }
+    }
   }
 
   return (
@@ -168,7 +184,8 @@ export default function SoppingCard() {
       { clickSopping && (
         <SoppingModal handleBuyClick={handleBuyClick}
         soppingCard={soppingCard}
-        handleDeleteClick={handleDeleteClick} />)}
+        handleDeleteClick={handleDeleteClick}
+        err={err} />)}
     </Root>
     
   )

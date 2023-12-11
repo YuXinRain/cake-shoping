@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getProduct, newProduct, setError, setIsLodding, setNewPost, setNewProduct } from '../../../Redux/reducers/admainReducer';
+import { newProduct, setError, setIsLodding, setNewPost, setNewProduct } from '../../../Redux/reducers/admainReducer';
 import { Center } from '../../../styledCss';
-import { getPosts } from '../../../WebAPI';
 import lodding from '../../../image/cat.png';
 
 const Root = styled.div`
@@ -77,7 +76,6 @@ const Nav = styled.div`
 `
 const ButtonStyle = styled.div`
   width: 55px;
-  height: 25px;
   padding: 3px;
   display: flex;
   background: #d0c4c8;
@@ -316,7 +314,7 @@ export default function NewPostPage() {
       navigate('/admain/commodity')
     }
     window.scrollTo(0, 0);
-
+    
   },[dispatch, newPost, navigate])
 
  return(

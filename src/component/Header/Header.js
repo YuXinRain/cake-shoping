@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAuthToken, setAuthToken } from '../../token';
 import { setUser } from '../../Redux/reducers/userReducer';
 import { useEffect, useState } from 'react';
-import { setClickSopping } from '../../Redux/reducers/productReducer';
+import { setClickSopping, setError } from '../../Redux/reducers/productReducer';
 import { setAdmain, setIsLodding } from '../../Redux/reducers/admainReducer';
 import { getMe } from '../../WebAPI';
 import shoppingCart from '../../image/shopping-cart.png';
@@ -129,6 +129,7 @@ export default function Header() {
   }
   const handleModalOpen = () => {
     dispatch(setClickSopping(true))
+    dispatch(setError(' '))
   }
 
   useEffect(()=> {
@@ -197,7 +198,7 @@ export default function Header() {
                 </NavSopping>
                 { !user && <Nav to='/login' $active={location.pathname === '/login'}>
                   <ImgPhoto src={loginPhoto}/>
-                  登入
+                  登入 / 註冊
                   </Nav>}
                 { user && (
                   <UserLogin>

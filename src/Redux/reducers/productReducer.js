@@ -8,7 +8,8 @@ const initialState = {
     card: '',
     count: 1,
     soppingCard: [],
-    clickSopping: false
+    clickSopping: false,
+    err: ''
     }
 
 export const productReducer = createSlice({
@@ -36,13 +37,17 @@ export const productReducer = createSlice({
     setClickSopping: (state, action) => {
       state.clickSopping = action.payload
     },
+    setError: (state, action) => {
+      state.err = action.payload
+    },
   },
 })
 
-export const { setClickSopping, setPosts, setIsHover, setCards, setLodding, setCount, setSoppingCard } = productReducer.actions
+export const { setClickSopping, setPosts, setIsHover, setCards, setLodding, setCount, setSoppingCard, setError } = productReducer.actions
 
 export const setProduct = () => async (dispatch) => {
   dispatch(setLodding(true))
+  document.body.style.overflow = 'hidden'
   const updatedContents = [];
   const postsData = await getPosts();
     const photosData = await getPhotos();
@@ -57,6 +62,7 @@ export const setProduct = () => async (dispatch) => {
     .then(results => {
       const updetresulet = results.filter(res => res.isDeleted !== 1)
       dispatch(setPosts(updetresulet))
+      document.body.style.overflow = 'visible'
       dispatch(setLodding(false))
     })
     .catch(error => {

@@ -197,22 +197,21 @@ const OrderContent = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   width: 500px;
-  height: 100px;
+  height: auto;
   text-align: center;
   background: #FAFAFA;
   box-shadow: 0px 1px 7px rgba(162, 132, 118, 0.7);
   border-radius: 10px;
-  padding: 10px;
+  padding: 20px;
 `
 const OrderStatus = styled.div`
   margin-top: 10px;
   padding: 10px;
 `
 const OrderDelete = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 20px;
+  border-radius: 10px;
+  background: #e8ccb0;
+  padding: 5px;
   cursor: pointer;
 `
 const Lodding = styled.div`
@@ -234,7 +233,9 @@ const LoddingImg = styled.img`
   margin-bottom: 25px;
   margin-right: 5px;
 `
-const OrderContext = styled.div``
+const OrderContext = styled.div`
+  margin-bottom: 10px;
+`
 
 export default function SoppingPage() {
   const soppingCard = useSelector((store) => store.products.soppingCard || [ ])
@@ -353,7 +354,7 @@ export default function SoppingPage() {
         <OrderContent>
           <OrderStatus>{order.ok === 1 ? "訂購成功" : "訂購失敗"}</OrderStatus>
           <OrderContext>訂單編號：{order.orderId}</OrderContext>
-          <OrderDelete onClick={handleOrderCloseClick}>X</OrderDelete>
+          <OrderDelete onClick={handleOrderCloseClick}>返回首頁</OrderDelete>
         </OrderContent>
       </OrderOk>)}
         <Sopping>

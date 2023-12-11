@@ -44,6 +44,7 @@ export const { setError, setAdmain, setAdmainProduct, setAdmainPhoto, setAdmainI
 
 export const getProduct = () => async (dispatch) => {
   dispatch(setIsLodding(true))
+  document.body.style.overflow = 'hidden'
   const updatedContents = [];
   const postsData = await getPosts();
     const photosData = await getPhotos();
@@ -55,6 +56,7 @@ export const getProduct = () => async (dispatch) => {
     .then(results => {
       const updetresulet = results.filter(res => res.isDeleted !== 1)
       dispatch(setProductAll(updetresulet))
+      document.body.style.overflow = 'visible'
       dispatch(setIsLodding(false))
     })
     .catch(error => {
@@ -117,7 +119,6 @@ export const deleteProductOne = (id) => (dispatch) => {
   deleteProduct(id).then(res => {
     if(res.ok === 1){
       dispatch(getProduct())
-      dispatch(setIsLodding(false))
     }  
   })
 }
@@ -140,9 +141,7 @@ export const newProduct = (files, data) => async (dispatch) => {
   const response = await setNewPosts(data); //新增資料進去
 
   if (response.ok === 1) {
-    console.log('setNewPostsOk')
     dispatch(setIsLodding(false));
-
     const productResponse = await getPosts(); //為了抓新的一筆資料的id
     if(productResponse.ok === 1){
       const upProduct = productResponse.result[productResponse.result.length - 1].id;
@@ -154,7 +153,6 @@ export const newProduct = (files, data) => async (dispatch) => {
       fromData.append('productId', upProduct.toString());
       const photoResponse = await postPhoto(fromData);
       if(photoResponse.ok === 1){
-        console.log('postPhotoOk')
         dispatch(getProduct());
         dispatch(setNewPost(true));
       }else {

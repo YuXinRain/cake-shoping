@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteProductOne, EditPatch, getProduct, getProductOne, postPhotos, setAdmainPhoto, setAdmainProduct, setError, UploadPhotos } from '../../../Redux/reducers/admainReducer';
+import { deleteProductOne, EditPatch, getProduct, getProductOne, postPhotos, setAdmainPhoto, setAdmainProduct, setError, setIsLodding, UploadPhotos } from '../../../Redux/reducers/admainReducer';
 import { Center } from '../../../styledCss';
 import lodding from '../../../image/cat.png';
 import { deletePhoto} from '../../../WebAPI';
@@ -88,7 +88,6 @@ const Nav = styled.div`
 `
 const ButtonStyle = styled.div`
   width: 55px;
-  height: 25px;
   padding: 3px;
   display: flex;
   background: #d0c4c8;
@@ -374,6 +373,7 @@ export default function AdmainEditPage() {
     navigate('/admain/commodity')
   }
 
+
   const handleFileChange = async (e) => {
     let fromData = new FormData();
     for (let i = 0; i < e.target.files.length; i++) {
@@ -398,9 +398,9 @@ export default function AdmainEditPage() {
   }
 
   const handleDeleteClick = (id) => {
-    dispatch(deleteProductOne(id))
-    navigate('/admain/commodity')
-  }
+    dispatch(deleteProductOne(id));
+    navigate('/admain/commodity');
+  };
 
  return(
   <Root>

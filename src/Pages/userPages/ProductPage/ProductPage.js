@@ -55,7 +55,6 @@ const CardContextRight = styled.div`
 `
 
 const CardDescription = styled.pre`
-  width: 180px;
   color: #8a8a8a;
   margin: 5px;
 `
@@ -125,8 +124,8 @@ const AmountReduce = styled.button`
 const AmountCount = styled.div`
   input{
     font-size: 16px;
-    width: 90%;
-    height: 30px;
+    width: 100%;
+    height: 100%;
     border: none;
     border-left: 1.5px solid #383838;
     border-right: 1.5px solid #383838;

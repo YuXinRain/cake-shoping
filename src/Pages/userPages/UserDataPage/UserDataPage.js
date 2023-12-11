@@ -65,7 +65,7 @@ const Grade = styled.div`
   padding: 5px;
   border-radius: 20px;
   background: #e8ccb0;
-  width: 70px;
+  width: auto;
   font-size: 14px;
   margin-left: 10px;
   ${Center}
@@ -178,10 +178,21 @@ const Save = styled.div`
   padding: 10px;
   border-radius: 10px;
   background: #e8ccb0;
-  width: 50px;
+  width: auto;
   text-align: center;
   position: absolute;
   right: 30px;
+  bottom: 30px;
+  cursor: pointer;
+`
+const EditBtn = styled.div` 
+  padding: 10px;
+  border-radius: 10px;
+  background: #e8ccb0;
+  width: auto;
+  text-align: center;
+  position: absolute;
+  right: 100px;
   bottom: 30px;
   cursor: pointer;
 `
@@ -222,7 +233,7 @@ function Order({ pagings, handleBtnRightClick, handleBtnLeftClick, handleBtnClic
 }
 
 
-function MemberProfile({ userAll, handleInputChange, handleSaveClick }) {
+function MemberProfile({ editOpen, userAll, handleInputChange, handleSaveClick, handleSaveCloseClick }) {
   return(
     <ContentAll>
       <TitleName>
@@ -236,16 +247,26 @@ function MemberProfile({ userAll, handleInputChange, handleSaveClick }) {
       </Edit>
       <SubAll>
         <Sub>姓名:
-          <input type='text' name="userName" value={userAll.userName} onChange={handleInputChange}/>
+          {editOpen ? (<input type='text' name="userName" value={userAll.userName} onChange={handleInputChange}/>) 
+          : (
+            <div>{userAll.userName}</div>
+          )}
         </Sub>
         <Sub>Email:
-          <input type='email' name="userEmail" value={userAll.userEmail} onChange={handleInputChange}/>
+          {editOpen ? (<input type='text' name="userEmail" value={userAll.userEmail} onChange={handleInputChange}/>) 
+          : (
+            <div>{userAll.userEmail}</div>
+          )}
         </Sub>
         <Sub>電話號碼:
-          <input type='text' name="userPhone" value={userAll.userPhone} onChange={handleInputChange}/>
+          {editOpen ? (<input type='text' name="userPhone" value={userAll.userPhone} onChange={handleInputChange}/>) 
+          : (
+            <div>{userAll.userPhone}</div>
+          )}
         </Sub>
       </SubAll>
       <Save onClick={handleSaveClick}>儲存</Save>
+      <EditBtn onClick={handleSaveCloseClick}>編輯</EditBtn>
     </ContentAll>
   )
 }
@@ -253,6 +274,7 @@ export default function UserDataPage() {
   const dispatch = useDispatch()
   const userData = useSelector((store) => store.users.user)
   const [ stateOpen, setStateOpen ] = useState(true)
+  const [ editOpen, setEditOpen ] = useState(false)
   const [ userAll, setUserAll ] = useState({
     userName: " ",
     userEmail: " ",
@@ -364,6 +386,10 @@ export default function UserDataPage() {
   }
   const handleSaveClick = () => {
     dispatch(patchUserAll(userAll))
+    setEditOpen(false)
+  }
+  const handleSaveCloseClick = () => {
+    setEditOpen(true)
   }
   return (
     <Root>
@@ -373,7 +399,7 @@ export default function UserDataPage() {
           <Material onClick={handleOpenClick} stateOpen={stateOpen}>個人資料</Material>
           <OrderData onClick={handleCloseClick} stateOpen={stateOpen}>訂單</OrderData>
         </List>
-        {stateOpen ? (<MemberProfile userAll={userAll} handleInputChange={handleInputChange} handleSaveClick={handleSaveClick}/>
+        {stateOpen ? (<MemberProfile userAll={userAll} handleInputChange={handleInputChange} handleSaveClick={handleSaveClick} handleSaveCloseClick={handleSaveCloseClick} editOpen={editOpen}/>
         ) : (
           pagings && <Order 
             pagings={pagings}

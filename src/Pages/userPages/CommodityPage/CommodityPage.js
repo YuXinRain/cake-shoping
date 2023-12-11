@@ -96,7 +96,7 @@ const CardAll = styled.div`
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
-  width: 600px;
+  width: auto;
   background: white;
   padding: 30px;
   position: relative;
@@ -114,6 +114,7 @@ const CardAll = styled.div`
 const CarImage = styled.img`
   width: 300px;
   height: 300px;
+  margin-right: 10px;
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -164,8 +165,8 @@ const AmountReduce = styled.button`
 const AmountCount = styled.div`
   input{
     font-size: 16px;
-    width: 90%;
-    height: 30px;
+    width: 100%;
+    height: 100%;
     border: none;
     border-left: 1.5px solid #383838;
     border-right: 1.5px solid #383838;
@@ -299,7 +300,6 @@ function Hover({ handleOpenModal, id }){
   )
 }
 export default function CommodityPage() {
-  const { id } = useParams();
   const posts = useSelector((store) => store.products.posts)
   const [ count, setCount ] = useState(1)
   const dispatch = useDispatch()
@@ -310,9 +310,9 @@ export default function CommodityPage() {
   const isLodding = useSelector((store) => store.products.isLodding)
 
   useEffect(()=> {
-    dispatch(setProduct())
     window.scrollTo(0, 0);
-  }, [dispatch, id])
+    dispatch(setProduct())
+  }, [])
 
 
   useEffect(()=> {
@@ -367,6 +367,7 @@ export default function CommodityPage() {
       dispatch(getCensorCard(previous, newData, data))
     }
     navigate('/commodity')
+
   }
 
 

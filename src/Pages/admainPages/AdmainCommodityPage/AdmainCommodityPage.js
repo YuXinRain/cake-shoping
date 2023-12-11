@@ -41,17 +41,17 @@ const Nav = styled.div`
   letter-spacing:5px;
   width: 80px;
   text-align: center;
+  margin: 0px 22px;
   @media (max-width: 768px) {
     width: auto;
   }
 `
 const NavButton = styled.div`
   text-align: center;
-  width: 80px;
-
+  width: 10%;
 `
 const PhotoNav = styled.div`
-  width: 200px;
+  width: 20%;
   text-align: center;
   letter-spacing:5px;
   @media (max-width: 768px) {
@@ -97,7 +97,6 @@ const PostAll = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 200px;
   letter-spacing:2px;
   position: relative;
   @media (max-width: 768px) {
@@ -106,12 +105,9 @@ const PostAll = styled.div`
   }
 `
 const Content = styled.div`
-  width: 80px;
+  width: 100%;
   text-align: center;
   margin: 0px 22px;
-  :first-child{
-    width: 200px;
-  }
   @media (max-width: 768px) {
     margin: 0px;
     padding-left: 20px;
@@ -134,6 +130,7 @@ const Content = styled.div`
 `
 const AllContent = styled.div`
   display: flex;
+  width:70%;
   @media (max-width: 768px) {
     display: block;
     width: 55%;
@@ -170,6 +167,7 @@ const NavName = styled.div`
   letter-spacing:5px;
   width: 200px;
   text-align: center;
+  margin: 0px 22px;
   @media (max-width: 768px) {
     width: auto;
   }
@@ -242,6 +240,11 @@ export default function AdmainCommodityPage() {
   const admainLogin = useSelector((store) => store.admains.admainLogin)
   const admainLodding = useSelector((store) => store.admains.isLodding)
   const [ rwdOpen, setRwdOpen ] = useState()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
+
   window.onresize = () => {
     const currentWindowWidth = window.innerWidth;
       if (currentWindowWidth <= 768) {
@@ -251,15 +254,12 @@ export default function AdmainCommodityPage() {
       }
   }
   useEffect(() => {
-    
-  })
-  useEffect(() => {
     if(admainProduct.length === 0){
       dispatch(getProduct())
     }
-    window.scrollTo(0, 0);
 
   }, [dispatch, admainProduct.length])
+
 
 return(
   <Root>
@@ -282,11 +282,13 @@ return(
       ) : (
         <Navber>
           <PhotoNav>圖片</PhotoNav>
-          <NavName>名稱</NavName>
-          <Nav>價格</Nav>
-          <Nav>上架</Nav>
-          <Nav>售出</Nav>
-          <Nav>庫存</Nav>
+          <AllContent>
+            <Content>名稱</Content>
+            <Content>價格</Content>
+            <Content>上架</Content>
+            <Content>售出</Content>
+            <Content>庫存</Content>
+          </AllContent>
           <NavButton>編輯</NavButton>
         </Navber>
         )}
