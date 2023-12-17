@@ -34,7 +34,6 @@ const Title = styled.ul`
   padding: 0px;
   border-bottom: 1px solid grey;
   margin-bottom: 10px;
-  padding-bottom: 15px;
 `
 const Nav = styled(Link)`
   color: black;

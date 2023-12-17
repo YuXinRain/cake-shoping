@@ -43,7 +43,6 @@ const HoverAll = styled.div`
   position: absolute;
   bottom: 0;
   background: rgba(0,0,0,0.6);
-  border: 1px solid black;
   width: 300px;
   height: 50px;
   display: flex;

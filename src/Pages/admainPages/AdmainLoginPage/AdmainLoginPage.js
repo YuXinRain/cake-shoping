@@ -45,7 +45,6 @@ const Title = styled.ul`
   padding: 0px;
   border-bottom: 1px solid grey;
   margin-bottom: 10px;
-  padding-bottom: 15px;
   border-width: 80%;
 `
 const FormAll = styled.div`

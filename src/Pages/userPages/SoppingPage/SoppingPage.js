@@ -56,9 +56,6 @@ const List = styled.div`
 const Nav = styled.div`
   width: 100px;
   text-align: center;
-  :not(:first-of-type) {
-    width: 55px;
-  }
 `
 const Tent = styled.div`
   display: flex;

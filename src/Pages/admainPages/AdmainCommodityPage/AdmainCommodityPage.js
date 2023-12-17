@@ -131,6 +131,7 @@ const Content = styled.div`
 const AllContent = styled.div`
   display: flex;
   width:70%;
+  align-items: center;
   @media (max-width: 768px) {
     display: block;
     width: 55%;
@@ -160,16 +161,6 @@ const PostPhoto = styled.img`
     width: 100px;
     height: 100px;
     padding-left: 15px;
-  }
-`
-
-const NavName = styled.div`
-  letter-spacing:5px;
-  width: 200px;
-  text-align: center;
-  margin: 0px 22px;
-  @media (max-width: 768px) {
-    width: auto;
   }
 `
 

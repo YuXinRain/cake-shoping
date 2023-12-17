@@ -72,17 +72,17 @@ const PageBottom = styled.div`
 `
 const BtnLeft = styled.img`
   background: #775862;
-  width: 15px;
-  height: 15px;
-  padding: 7px;
+  width: 18px;
+  height: 18px;
+  padding: 3px;
   border-radius: 5px;
   cursor: pointer;
 `
 const BtnRight = styled.img`
   background: #775862;
-  width: 15px;
-  height: 15px;
-  padding: 7px;
+  width: 18px;
+  height: 18px;
+  padding: 3px;
   border-radius: 5px;
   cursor: pointer;
 
@@ -125,6 +125,10 @@ const SearchInput = styled.div`
     border: none;
     height: 20px;
     padding: 5px;
+  }
+  input::placeholder {
+    font-size: 16px;
+    letter-spacing: 1px;
   }
 `
 const LoginNone = styled(Link)`
@@ -355,7 +359,6 @@ export default function AdmainOrderPage() {
                     </Dropdown>
                     </Nav>
                 </Navber>
-                {/* <EditBttton src={pen} onClick={handleOpenClick}/> */}
               </OrderAll> )}
             </List>
           </ContentAll>
