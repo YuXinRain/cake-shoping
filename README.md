@@ -41,5 +41,5 @@ route
 ![無法顯示圖片](https://i.imgur.com/E76MmMJ.png)
 ![無法顯示圖片](https://i.imgur.com/qbdfUx1.png)
 ![無法顯示圖片](https://i.imgur.com/LwxJSHI.png)
-![無法顯示圖片](https://imgur.com/FqBPLVD)
+![無法顯示圖片](https://i.imgur.com/FqBPLVD.png)
 ![無法顯示圖片](https://i.imgur.com/5qUojpe.png)
