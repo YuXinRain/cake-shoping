@@ -434,10 +434,10 @@ export default function AdmainEditPage() {
                   <NavType>種類
                     <Select value={productInfo.type} name="type" onChange={handleInputChange}>
                       <Option>請選擇</Option>  
-                      <Option value={1}>1</Option>
-                      <Option value={2}>2</Option>
-                      <Option value={3}>3</Option>
-                      <Option value={4}>4</Option>
+                      <Option value={1}>蛋糕</Option>
+                      <Option value={2}>餅乾</Option>
+                      <Option value={3}>布丁</Option>
+                      <Option value={4}>奶酪</Option>
                     </Select>
                   </NavType>
                   <NavPrice>金額<input type='number' name="price" value={productInfo.price} onChange={handleInputChange} /></NavPrice>
