@@ -18,6 +18,7 @@ import UserDataPage from '../../Pages/userPages/UserDataPage/UserDataPage';
 
 const Root = styled.div`
   overflow-x: hidden;
+  height: 100%;
 ` 
 
 export default function App() {

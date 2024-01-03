@@ -138,10 +138,10 @@ export const postPhotos = (fromData, id) => (dispatch) => {
 }
 
 export const newProduct = (files, data) => async (dispatch) => {
+  document.body.style.overflow = 'hidden'
+  document.getElementById('root').style.height = '100%'
   const response = await setNewPosts(data); //新增資料進去
-
   if (response.ok === 1) {
-    dispatch(setIsLodding(false));
     const productResponse = await getPosts(); //為了抓新的一筆資料的id
     if(productResponse.ok === 1){
       const upProduct = productResponse.result[productResponse.result.length - 1].id;
@@ -157,13 +157,19 @@ export const newProduct = (files, data) => async (dispatch) => {
         dispatch(setNewPost(true));
       }else {
         dispatch(setError(photoResponse.message));
+        document.body.style.overflow = 'visible'
+        dispatch(setIsLodding(false));
+        dispatch(getProduct());
+        dispatch(setNewPost(true));
       }
       }else {
         dispatch(setError(productResponse.message));
+        document.body.style.overflow = 'visible'
         dispatch(setIsLodding(false));
       }
     } else {
       dispatch(setError(response.message));
+      document.body.style.overflow = 'visible'
       dispatch(setIsLodding(false));
     }
 

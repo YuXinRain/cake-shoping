@@ -10,6 +10,7 @@ const Root = styled.div`
   margin-top: 150px;
   ${Center}
   margin-bottom: 50px;
+  height: 100%;
 `
 const Article = styled.div`
   margin-top: 30px;
@@ -84,7 +85,6 @@ const ButtonStyle = styled.div`
   margin-left: 10px;
   ${({ isShow }) => isShow === 1 && `
     background: #5f9ea0;
-    // animation: scrollRight 5s linear infinite;  
   `}
 `
 
@@ -322,7 +322,7 @@ export default function NewPostPage() {
     {admainLodding &&
       <Lodding>
         <LoddingImg src={lodding} />
-        Lodding
+        Lodding...
       </Lodding>}
     <ContentAll>
       <Title>
@@ -345,10 +345,10 @@ export default function NewPostPage() {
             <NavType>種類
               <Select value={productType} onChange={handleTypeChange}>
                 <Option>請選擇</Option>  
-                <Option value={1}>1</Option>
-                <Option value={2}>2</Option>
-                <Option value={3}>3</Option>
-                <Option value={4}>4</Option>
+                <Option value={1}>蛋糕</Option>
+                <Option value={2}>餅乾</Option>
+                <Option value={3}>布丁</Option>
+                <Option value={4}>奶酪</Option>
               </Select>
             </NavType>
             <NavPrice>金額<input type='number' value={price} onChange={hadlePriceChange} /></NavPrice>
