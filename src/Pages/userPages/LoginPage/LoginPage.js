@@ -18,7 +18,8 @@ const LoginForm = styled.form`
   justify-content: center;
   border: 1px solid grey;
   width: 650px;
-  height: auto;
+  height: 520px;
+  position: relative;
   @media (max-width: 768px) {  
     width: 350px;
     height: auto;
@@ -42,7 +43,7 @@ const Nav = styled(Link)`
 const Text = styled.div`
   input{
     width: 500px;
-    height: 30px;
+    height: 35px;
     margin-top: 30px;
   }
   @media (max-width: 768px) {  
@@ -66,7 +67,8 @@ const LoginButton = styled.button`
   ${Center}
   cursor: pointer;
   border-radius: 15px;
-
+  position: absolute;
+  bottom: 40px;
 `
 
 const LoginAll = styled.div`
@@ -94,6 +96,7 @@ const Lodding = styled.div`
   height: 100%;
   background: #faf1eb;
   color: #a28876;
+  z-index: 222;
 `
 const FormAll = styled.div`
   ${Center}

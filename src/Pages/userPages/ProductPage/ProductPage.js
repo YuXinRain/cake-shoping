@@ -7,9 +7,10 @@ import { Button, Center } from '../../../styledCss';
 import lodding from '../../../image/cat.png';
 
 const Root = styled.div`
-  margin-top: 70px;
-  ${Center}
   position: relative;
+  margin-top: 140px;
+  ${Center}
+  margin-bottom: 50px;
 ` 
 
 const CardAll = styled.div`
@@ -100,6 +101,10 @@ const SoppingButton = styled.button`
     margin-top: 10px;
   }
 `
+const MarkAll = styled.div`
+
+`
+
 const Amount = styled.div`
   display: flex;
   border: 1px solid black;
@@ -217,18 +222,21 @@ export default function ProductPage() {
         <CardContextRight>
           <Title>{card && card[0].productName}</Title>
           <CardDescription>{card && card[0].articlel}</CardDescription>
-          <CardPrice>NT$ {card && card[0].price}</CardPrice>
-          <Amount>
-            <AmountReduce onClick={handleDecrement}> - </AmountReduce> 
-            <AmountCount>
-              <input type="text" value={count} onChange={handleInputChange}/>
-            </AmountCount>
-            <AmountAdd onClick={handleIncrement}> + </AmountAdd>
-          </Amount>
-          <Sopping>
-            <SoppingButton onClick={handleJoinClick}>加入購物車</SoppingButton>
-            <CardSell>已賣出：{card && card[0].sell}</CardSell>
-          </Sopping>
+          <MarkAll>
+            <CardPrice>NT$ {card && card[0].price}</CardPrice>
+            <Amount>
+              <AmountReduce onClick={handleDecrement}> - </AmountReduce> 
+              <AmountCount>
+                <input type="text" value={count} onChange={handleInputChange}/>
+              </AmountCount>
+              <AmountAdd onClick={handleIncrement}> + </AmountAdd>
+            </Amount>
+            <Sopping>
+              <SoppingButton onClick={handleJoinClick}>加入購物車</SoppingButton>
+              <CardSell>已賣出：{card && card[0].sell}</CardSell>
+            </Sopping>
+          </MarkAll>
+          
         </CardContextRight>
       </CardAll>
       

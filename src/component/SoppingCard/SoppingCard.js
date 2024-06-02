@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setClickSopping, setDelete, setError } from '../../Redux/reducers/productReducer';
 import dele from '../../image/delete.png'
 import { Between, Center } from '../../styledCss';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAuthToken } from '../../token';
 
 const Root = styled.div`
@@ -73,7 +73,7 @@ const CardTotal = styled.div`
   width: 100%;
   height: 100px;
   display: flex;
-  padding-bottom: 15px;
+  padding-bottom: 120px;
 `
 const Delete = styled.img`
   width: 25px;
@@ -136,7 +136,7 @@ function SoppingTotal({ soppingCard, handleDeleteClick, handleBuyClick }){
   )
 }
 
-function SoppingModal({ err, handleBuyClick, soppingCard, handleDeleteClick }){
+function SoppingModal({ err, handleBuyClick, soppingCard, handleDeleteClick, handleClick }){
   return(
   <SoppingAll>
     <SoppingCards>
@@ -154,7 +154,7 @@ function SoppingModal({ err, handleBuyClick, soppingCard, handleDeleteClick }){
         </Order>
       </Checkout>}
     </SoppingCards>
-    <SoppingRight onClick={handleBuyClick}/>
+    <SoppingRight onClick={handleClick}/>
   </SoppingAll>
   )
 }
@@ -179,12 +179,24 @@ export default function SoppingCard() {
     }
   }
 
+  const handleClick = () => {
+    if(getAuthToken() !== ' '){
+      dispatch(setClickSopping(false))
+    }else{
+      dispatch(setError('請先登入會員'))
+      if(err !== ' '){
+        dispatch(setClickSopping(false))
+      }
+    }
+  }
+
   return (
     <Root>
       { clickSopping && (
         <SoppingModal handleBuyClick={handleBuyClick}
         soppingCard={soppingCard}
         handleDeleteClick={handleDeleteClick}
+        handleClick={handleClick}
         err={err} />)}
     </Root>
     

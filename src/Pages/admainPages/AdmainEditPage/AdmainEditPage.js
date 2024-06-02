@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteProductOne, EditPatch, getProduct, getProductOne, postPhotos, setAdmainPhoto, setAdmainProduct, setError, setIsLodding, UploadPhotos } from '../../../Redux/reducers/admainReducer';
+import { deleteProductOne, EditPatch, getProduct, getProductOne, postPhotos, setAdmainPhoto, setAdmainProduct } from '../../../Redux/reducers/admainReducer';
 import { Center } from '../../../styledCss';
 import lodding from '../../../image/cat.png';
 import { deletePhoto} from '../../../WebAPI';
