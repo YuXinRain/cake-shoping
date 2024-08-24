@@ -8,7 +8,6 @@ import right from '../../../image/right.png';
 import Search from '../../../image/search.png'
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import pen from '../../../image/pen.png';
 import Dropdown from 'react-bootstrap/Dropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -158,6 +157,7 @@ export default function AdmainOrderPage() {
   const pageAll = Array.from({ length: totalPages }, (_, index) => ({ num: index + 1, wire: 1 }));
   const resOkAll = Array.from({ length: totalSearchs }, (_, index) => ({ num: index + 1, wire: 1 }));
   const admainLogin = useSelector((store) => store.admains.admainLogin)
+  console.log(resOk)
 
   const paging = (sum, page) => {
     const startIndex = (page - 1) * sum;

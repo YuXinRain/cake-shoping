@@ -3,13 +3,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Center } from '../../../styledCss';
-import { getOrderId, PatchUser } from '../../../WebAPI';
+import { getOrderId } from '../../../WebAPI';
 import userEdit from '../../../image/userEdit.png';
 import userEditIcon from '../../../image/userEditIcon.png';
 import userLeft from '../../../image/user-left.png';
 import userRight from '../../../image/user-right.png';
 import { Link } from 'react-router-dom';
-import { patchUserAll } from '../../../Redux/reducers/userReducer';
+import { setEditOpen, validate } from '../../../Redux/reducers/userReducer';
 
 const Root = styled.div`
   margin: 100px 0px 30px 0px;
@@ -206,12 +206,17 @@ function Order({ pagings, handleBtnRightClick, handleBtnLeftClick, handleBtnClic
             <Text>合計</Text>
             <Text>訂單狀態</Text>
           </OrderTitle>
-          {pagings.map(page => 
-          <ConAll>
-            <Con>{page.orderid}</Con>
-            <Con>{page.totalPrice}</Con>
-            <Con>{page.status === 0 ? '未完成' : '已完成'}</Con>
-          </ConAll>)}
+          {pagings.length > 0 ? (
+            pagings.map(page => 
+              <ConAll key={page.orderid}>
+                <Con>{page.orderid}</Con>
+                <Con>{page.totalPrice}</Con>
+                <Con>{page.status === 0 ? '未完成' : '已完成'}</Con>
+              </ConAll>
+            )
+          ) : (
+            <ConAll style={{ padding: '10px', background:'#D3D3D3' }}>目前無完成的訂單記錄</ConAll>
+          )}
         </OrderBorder>
         <PageBottom>
           <LimitPage>
@@ -233,7 +238,7 @@ function Order({ pagings, handleBtnRightClick, handleBtnLeftClick, handleBtnClic
 }
 
 
-function MemberProfile({ editOpen, userAll, handleInputChange, handleSaveClick, handleSaveCloseClick }) {
+function MemberProfile({ emailError, phoneError, editOpen, userAll, handleInputChange, handleSaveClick, handleSaveCloseClick }) {
   return(
     <ContentAll>
       <TitleName>
@@ -253,13 +258,24 @@ function MemberProfile({ editOpen, userAll, handleInputChange, handleSaveClick, 
           )}
         </Sub>
         <Sub>Email:
-          {editOpen ? (<input type='text' name="userEmail" value={userAll.userEmail} onChange={handleInputChange}/>) 
+          {editOpen ? (
+             <>
+              <input type="email" name="userEmail" value={userAll.userEmail} onChange={handleInputChange} />
+              {emailError && <div style={{position:'absolute', color:'red', fontSize:'12px'}}>{emailError}</div>}
+            </>
+            ) 
           : (
             <div>{userAll.userEmail}</div>
           )}
         </Sub>
         <Sub>電話號碼:
-          {editOpen ? (<input type='text' name="userPhone" value={userAll.userPhone} onChange={handleInputChange}/>) 
+          {editOpen ? (
+            <>
+              <input type='text' name="userPhone" value={userAll.userPhone} onChange={handleInputChange}/>
+              {phoneError && <div style={{position:'absolute', color:'red', fontSize:'12px'}}>{phoneError}</div>}
+            </>
+            
+            ) 
           : (
             <div>{userAll.userPhone}</div>
           )}
@@ -273,8 +289,10 @@ function MemberProfile({ editOpen, userAll, handleInputChange, handleSaveClick, 
 export default function UserDataPage() {
   const dispatch = useDispatch()
   const userData = useSelector((store) => store.users.user)
+  const emailError = useSelector((store) => store.users.emailError)
+  const phoneError = useSelector((store) => store.users.phoneError)
+  const editOpen = useSelector((store) => store.users.editOpen)
   const [ stateOpen, setStateOpen ] = useState(true)
-  const [ editOpen, setEditOpen ] = useState(false)
   const [ userAll, setUserAll ] = useState({
     userName: " ",
     userEmail: " ",
@@ -285,6 +303,7 @@ export default function UserDataPage() {
   const [ pages, setPages ] = useState('')
   const totalOrder = Math.ceil(userOrder.length / 10);
   const userOrderAll = Array.from({ length: totalOrder }, (_, index) => ({ num: index + 1, wire: 1 }));
+  
   const paging = (sum, page) => {
     const startIndex = (page - 1) * sum;
     const endIndex = startIndex + sum;
@@ -293,8 +312,10 @@ export default function UserDataPage() {
       setPagings(paginatedData)
     }
   }
+
   const handleOpenClick = () => {userData && setStateOpen(true)}
   const handleCloseClick = () => {setStateOpen(false)}
+
   useEffect(() => {
     userData && (
       setUserAll({
@@ -331,7 +352,6 @@ export default function UserDataPage() {
       [name]: value,
     }));
   }
-
 
   const handleBtnLeftClick = () => {
     const clickLeft = pages.filter(btn => btn.wire === 0)
@@ -385,11 +405,10 @@ export default function UserDataPage() {
     }
   }
   const handleSaveClick = () => {
-    dispatch(patchUserAll(userAll))
-    setEditOpen(false)
+    dispatch(validate(userAll.userEmail, userAll.userPhone, userAll))
   }
   const handleSaveCloseClick = () => {
-    setEditOpen(true)
+    dispatch(setEditOpen(true))
   }
   return (
     <Root>
@@ -399,7 +418,15 @@ export default function UserDataPage() {
           <Material onClick={handleOpenClick} stateOpen={stateOpen}>個人資料</Material>
           <OrderData onClick={handleCloseClick} stateOpen={stateOpen}>訂單</OrderData>
         </List>
-        {stateOpen ? (<MemberProfile userAll={userAll} handleInputChange={handleInputChange} handleSaveClick={handleSaveClick} handleSaveCloseClick={handleSaveCloseClick} editOpen={editOpen}/>
+        {stateOpen ? (<MemberProfile 
+          userAll={userAll} 
+          handleInputChange={handleInputChange} 
+          handleSaveClick={handleSaveClick} 
+          handleSaveCloseClick={handleSaveCloseClick} 
+          editOpen={editOpen}
+          emailError={emailError}
+          phoneError={phoneError}
+          />
         ) : (
           pagings && <Order 
             pagings={pagings}

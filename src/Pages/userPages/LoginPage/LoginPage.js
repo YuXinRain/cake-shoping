@@ -112,7 +112,8 @@ function Register({ err,
   handlePasswordChange,
   handlePhoneChange,
   handleEmailChange,
-  handleFocus  }){  
+  handleFocus,
+  phoneError  }){  
   return(
     <ContentAll>
       <Content>
@@ -128,6 +129,7 @@ function Register({ err,
           </LoginName>
           <LoginName>
             <input type="email" placeholder="Email" value={email} onChange={handleEmailChange} onFocus={handleFocus}></input>
+            {phoneError && <div style={{position:'absolute', color:'red', fontSize:'12px'}}>{phoneError}</div>}
           </LoginName>
           <LoginName>
             <input type="text" placeholder="電話" value={phone} onChange={handlePhoneChange} onFocus={handleFocus}></input>
@@ -168,6 +170,8 @@ export default function LoginPage() {
   const [ phone, setPhone ] = useState('')
   const [ realName, setName ] = useState('')
   const [ login, setLogin ] = useState(true)
+  const emailError = useSelector((store) => store.users.emailError)
+  const phoneError = useSelector((store) => store.users.phoneError)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector((store) => store.users.user)

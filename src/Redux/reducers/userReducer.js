@@ -5,7 +5,10 @@ import { setAuthToken } from '../../token'
 const initialState = {
     user: '',
     isLodding: false,
-    err: ''
+    err: '',
+    emailError: '',
+    editOpen: false,
+    phoneError: '',
     }
 
 export const userReducer = createSlice({
@@ -21,10 +24,19 @@ export const userReducer = createSlice({
     setLodding: (state, action) => {
         state.isLodding = action.payload
     },
+    setEmailError: (state, action) => {
+        state.emailError = action.payload
+    },
+    setEditOpen: (state, action) => {
+        state.editOpen = action.payload
+    },
+    setPhoneError: (state, action) => {
+        state.phoneError = action.payload
+    }
   },
 })
 
-export const { setError, setUser, setLodding } = userReducer.actions
+export const { setError, setUser, setLodding, setEmailError, setEditOpen, setPhoneError } = userReducer.actions
 
 export const getUser = (data) => (dispatch) => {
     dispatch(setLodding(true))
@@ -66,6 +78,7 @@ export const postRegister = (data) => (dispatch) => {
 export const patchUserAll = (data) => (dispatch) => {
     PatchUser(data).then(res => {
         if(res.ok === 1){
+            console.log(res)
             getMe().then(text => {
                 if(text.ok === 1){
                     dispatch(setUser(text.result))
@@ -74,4 +87,29 @@ export const patchUserAll = (data) => (dispatch) => {
         }
     })
 }
+export const validate = (email, phoneNumber, userAll) => (dispatch) => {
+    const validateEmail = (email) => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$/;
+        return emailRegex.test(email);
+    }
+    const validatePhoneNumber = (phoneNumber) => {
+        const phoneRegex = /^\d{10}$/;
+        return phoneRegex.test(phoneNumber);
+      }
+    if (!validateEmail(email)) {
+        dispatch(setEmailError('請輸入有效的電子郵件'));
+        dispatch(setEditOpen(true))
+        return;
+    }
+    if (!validatePhoneNumber(phoneNumber)) {
+        dispatch(setPhoneError("請輸入有效的手機格式"));
+        dispatch(setEditOpen(true))
+        return;
+    }
+    dispatch(setEditOpen(false))
+    dispatch(setEmailError(' '))
+    dispatch(setPhoneError(' '))
+    dispatch(patchUserAll(userAll))
+}
+
 export default userReducer.reducer

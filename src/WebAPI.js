@@ -123,7 +123,7 @@ export const getAdmain = (data) => {
   .then(console.log('getAdmain'))
 }
 
-export const getOrderId = () => {
+export const getOrderId = (id) => {
   const token = getAuthToken()
   return fetch(`${BASE_URL}/orderUser`, {
     method: 'POST',
@@ -132,7 +132,7 @@ export const getOrderId = () => {
       'authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
-      "userId": 225
+      "userId": id
     })
   })
   .then(res => res.json())

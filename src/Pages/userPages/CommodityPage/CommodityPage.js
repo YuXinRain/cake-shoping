@@ -16,11 +16,15 @@ const Root = styled.div`
 const PostCenter = styled.div`
   display: inline-block;
   height: 100%;
+  @media (max-width: 380px) {  
+    display: inline-block;
+    width: 380px;
+  }
 `
 
 const Product = styled.div`
   width: 300px;
-  height: 300px;
+  height: 400px;
   margin: 70px 50px 0;;
   ${Center}
   position: relative;

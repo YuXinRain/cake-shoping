@@ -32,9 +32,8 @@ const Sopping = styled.div`
     width:90%;
   }
 `
-const Content = styled.div`
+const Content = styled.div``
 
-`
 const Title = styled.div`
   padding: 15px;
   padding-left: 30px;
