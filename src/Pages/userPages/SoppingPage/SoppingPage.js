@@ -313,20 +313,21 @@ export default function SoppingPage() {
 
   const handlePriceClick = () => {
     dispatch(setLodding(true))
-    if(getAuthToken() !== ' '){
-      if(productInfo){
-      postNewOrder(productInfo).then(res => {
-        if(res.ok === 1){
-          setOrder(res)
-          dispatch(setLodding(false))
-        }
-      })
-      .catch(err => console.log(err))
+    if(getAuthToken() !== null){
+      if(getAuthToken() !== ' '){
+        if(productInfo){
+        postNewOrder(productInfo).then(res => {
+          if(res.ok === 1){
+            setOrder(res)
+            dispatch(setLodding(false))
+          }
+        })
+        .catch(err => console.log(err))
+      }
+      }else{
+        setError('請先登入會員')
+      }
     }
-    }else{
-      setError('請先登入會員')
-    }
-
     if(order === ''){
       dispatch(setLodding(false))
     }

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { LeaveHover, setProduct, EnterHover, getCount, getSoppingCard, getCensorCard, getCard, setCards } from '../../../Redux/reducers/productReducer';
 import { Button, Center } from '../../../styledCss';
 import lodding from '../../../image/cat.png';
 import cakePhoto from '../../../image/cakePhoto.jpeg';
 import sweets from '../../../image/sweets.png';
+import { PulseLoader } from 'react-spinners'; // 根據你需要的 spinner 類型來選擇
 
 const Root = styled.div`
   text-align: center;
@@ -24,7 +25,7 @@ const PostCenter = styled.div`
 
 const Product = styled.div`
   width: 300px;
-  height: 400px;
+  height: 300px;
   margin: 70px 50px 0;;
   ${Center}
   position: relative;
@@ -62,6 +63,7 @@ const HoverText = styled.button`
   color: white;
   border: none;
   cursor: pointer;
+  ${Center}
 `
 
 const SoppingCardAll = styled.div`
@@ -293,11 +295,11 @@ function SoppingCard({ handleCloseModal, cards, cardUrl, count, handleIncrement,
     </SoppingCardAll>
   )
 }
-function Hover({ handleOpenModal, id }){
+function Hover({ handleOpenModal, id, animationLoading }){
   return(
     <HoverAll onClick={()=>handleOpenModal(id)}>
       <HoverText>
-        加入購物車
+        {animationLoading ? <PulseLoader color='#fff'/> : '加入購物車'}
       </HoverText>
     </HoverAll>
   )
@@ -311,7 +313,7 @@ export default function CommodityPage() {
   const soppingCard = useSelector((store) => store.products.soppingCard)
   const navigate = useNavigate()
   const isLodding = useSelector((store) => store.products.isLodding)
-
+  const [animationLoading, setAnimationLoading] = useState(false)
   useEffect(()=> {
     window.scrollTo(0, 0);
     dispatch(setProduct())
@@ -348,8 +350,10 @@ export default function CommodityPage() {
     setCount(event.target.value);
   };
 
-  const handleOpenModal = (id) => {
-    dispatch(getCard(id))
+  const handleOpenModal = async (id) => {
+    setAnimationLoading(true)
+    await dispatch(getCard(id))
+    setAnimationLoading(false)
   };
 
   const handleCloseModal = () => {
@@ -394,7 +398,7 @@ export default function CommodityPage() {
         <ProductWrapper>
           <Product onMouseEnter={()=>handleMouseEnter(post.id)}
             onMouseLeave={()=>handleMouseLeave(post.id)}>
-            { post.isHover && <Hover handleOpenModal={handleOpenModal} id={post.id}/>}
+            { post.isHover && <Hover handleOpenModal={handleOpenModal} id={post.id} animationLoading={animationLoading}/>}
             <Link to={`/product/${post.id}`}>
               <PhotoUrl src={post.photoUrl} />
             </Link>

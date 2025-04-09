@@ -38,7 +38,11 @@ const Title = styled.ul`
 `
 const Nav = styled(Link)`
   color: black;
+  font-size: 18px;
   text-decoration: none;
+  :hover{
+    color: #a28876;
+  }
 `
 const Text = styled.div`
   input{
@@ -179,13 +183,14 @@ export default function LoginPage() {
   const isLodding = useSelector((store) => store.users.isLodding)
   const location = useLocation();
 
-  const handleLoginSubmit = () =>{
+  const handleLoginSubmit = (e) =>{
+    e.preventDefault()
     if(location.pathname === "/login"){
       dispatch(getUser({
         username, password
-    }))
-    setUserName('')
-    setPassword('')
+      }))
+      setUserName('')
+      setPassword('')
     }
     if(location.pathname === "/register"){
       dispatch(postRegister({
@@ -240,7 +245,7 @@ export default function LoginPage() {
   return (
     <Root>
       {isLodding && <Lodding>Lodding...</Lodding>}
-      <LoginForm onSubmit={handleLoginSubmit}>
+      <LoginForm onSubmit={(e) => handleLoginSubmit(e)}>
         <FormAll>
           <Title>
             <Nav onClick={handleLoginToggle} to={'/login'}>會員登入</Nav>

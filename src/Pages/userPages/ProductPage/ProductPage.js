@@ -14,7 +14,6 @@ const Root = styled.div`
 ` 
 
 const CardAll = styled.div`
-  margin-top: 60px;
   width: 1000px;
   padding: 20px;
   height: 450px;
@@ -141,11 +140,11 @@ const Lodding = styled.div`
   font-size: 42px;
   background: #faf1eb;
   ${Center};
-  position: absolute;
+  position: fixed;
   width: 100%;
   height: 100%;
   color: #a28876;
-  z-index: 999;
+  z-index: 777;
   top: 0;
   left: 0;
 `
@@ -183,6 +182,7 @@ export default function ProductPage() {
   };
 
   const handleJoinClick = () => {
+    dispatch(setLodding(true))
     const newData = {count, card, cardUrl}
     const data = [...soppingCard, newData]
     const previous = [...soppingCard]
@@ -195,6 +195,7 @@ export default function ProductPage() {
     setCount(1)
     dispatch(setCards(''))
     navigate('/commodity')
+    dispatch(setLodding(false))
   }
   useEffect(()=> {
     dispatch(getCard(id))

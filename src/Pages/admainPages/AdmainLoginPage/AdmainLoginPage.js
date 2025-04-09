@@ -96,7 +96,8 @@ export default function AdmainLoginPage() {
   const admain = useSelector((store) => store.admains.admainLogin)
   const navigate = useNavigate()
 
-  const handleLoginSubmit = () => {
+  const handleLoginSubmit = (e) => {
+    e.preventDefault()
     dispatch(getAdmainLogin({ username, password }));
   };
 

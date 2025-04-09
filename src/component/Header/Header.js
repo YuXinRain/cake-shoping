@@ -141,18 +141,21 @@ export default function Header() {
   }, [soppingCard])
 
   useEffect(() => {
-    if(getAuthToken() !== ' '){
-      getMe().then(res => {
-        if(res.ok === 1){
-          dispatch(setUser(res.result))
-        }
-      })
-      .catch(err => {
-        dispatch(setIsLodding(true))
-        dispatch(setAdmain(true))
-        dispatch(setIsLodding(false))
-      })
+    if(getAuthToken() !== null){
+      if(getAuthToken() !== ' '){
+        getMe().then(res => {
+          if(res.ok === 1){
+            dispatch(setUser(res.result))
+          }
+        })
+        .catch(err => {
+          dispatch(setIsLodding(true))
+          dispatch(setAdmain(true))
+          dispatch(setIsLodding(false))
+        })
+      }
     }
+
   }, [dispatch])
 
   useEffect(() => {

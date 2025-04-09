@@ -14,6 +14,7 @@ const RootCard = styled.div`
   & + & {
     margin-top: 20px;
   }
+  width: 100%;
 `
 const SoppingAll = styled.div`
   display: flex;
@@ -28,7 +29,6 @@ const SoppingAll = styled.div`
 `
 const SoppingCards = styled.div`
   overflow-y:scroll;
-
   ::-webkit-scrollbar-thumb{
     background:  #ffc5dc;
   }
@@ -44,9 +44,7 @@ const SoppingCards = styled.div`
     width: 600px;
   }
 `
-const SoppingRight = styled.div`
-  width: 100%;
-`
+
 const ProductName = styled.div`
   color: white;
 `
@@ -55,6 +53,7 @@ const CardRight = styled.div`
   padding-left: 15px;
   position: relative;
   height: 100px;
+  width: 100%;
 `
 const Image = styled.img`
   width: 100px;
@@ -136,10 +135,10 @@ function SoppingTotal({ soppingCard, handleDeleteClick, handleBuyClick }){
   )
 }
 
-function SoppingModal({ err, handleBuyClick, soppingCard, handleDeleteClick, handleClick }){
+function SoppingModal({ err, handleBuyClick, soppingCard, handleDeleteClick, dispatch, setClickSopping }){
   return(
-  <SoppingAll>
-    <SoppingCards>
+  <SoppingAll onClick={() => dispatch(setClickSopping(false))}>
+    <SoppingCards onClick={(e) => e.stopPropagation()}>
       <CardTitle>購物車
         {err && <Error>{err}</Error>}
       </CardTitle>
@@ -154,7 +153,6 @@ function SoppingModal({ err, handleBuyClick, soppingCard, handleDeleteClick, han
         </Order>
       </Checkout>}
     </SoppingCards>
-    <SoppingRight onClick={handleClick}/>
   </SoppingAll>
   )
 }
@@ -168,9 +166,16 @@ export default function SoppingCard() {
     dispatch(setDelete(id))
   }
   const handleBuyClick = () => {
-    if(getAuthToken() !== ' '){
-      dispatch(setClickSopping(false))
-      navigate("/sopping")
+    if(getAuthToken() !== null){
+      if(getAuthToken() !== ' '){
+        dispatch(setClickSopping(false))
+        navigate("/sopping")
+      }else{
+        dispatch(setError('請先登入會員'))
+        if(err !== ' '){
+          dispatch(setClickSopping(false))
+        }
+      }
     }else{
       dispatch(setError('請先登入會員'))
       if(err !== ' '){
@@ -180,12 +185,14 @@ export default function SoppingCard() {
   }
 
   const handleClick = () => {
-    if(getAuthToken() !== ' '){
-      dispatch(setClickSopping(false))
-    }else{
-      dispatch(setError('請先登入會員'))
-      if(err !== ' '){
+    if(getAuthToken() !== null){
+      if(getAuthToken() !== ' '){
         dispatch(setClickSopping(false))
+      }else{
+        dispatch(setError('請先登入會員'))
+        if(err !== ' '){
+          dispatch(setClickSopping(false))
+        }
       }
     }
   }
@@ -197,6 +204,8 @@ export default function SoppingCard() {
         soppingCard={soppingCard}
         handleDeleteClick={handleDeleteClick}
         handleClick={handleClick}
+        setClickSopping={setClickSopping}
+        dispatch={dispatch}
         err={err} />)}
     </Root>
     
